@@ -3,7 +3,7 @@ import Navbar from "./navbar";
 
 export default function Header() {
   return (
-    <header className="pt-16">
+    <header className="mt-16 mb-4">
       <div className="container flex items-center justify-between">
         <Logo />
         <Navbar />

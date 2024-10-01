@@ -33,3 +33,19 @@
     text-wrap: balance;
   }
 }
+
+.swiper-container .swiper-pagination-bullet {
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid white;
+  background-color: white;
+  border-radius: 50%;
+  transition: all 0.3s ease-in-out;
+}
+
+.swiper-container .swiper-pagination-bullet-active {
+  background-color: transparent;
+  width: 1rem;
+  height: 1rem;
+}
+

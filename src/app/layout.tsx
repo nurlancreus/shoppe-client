@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Allerta_Stencil, DM_Sans } from "next/font/google"; // Import from next/font/google
 import "./globals.css";
 import Header from "./_components/layout/header";
+import Footer from "./_components/layout/footer";
 
 // Google fonts
 const allertaStencil = Allerta_Stencil({
@@ -29,12 +30,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${allertaStencil.variable} ${dmSans.variable} antialiased`}
+        className={`${allertaStencil.variable} ${dmSans.variable} grid min-h-screen grid-rows-[auto,1fr,auto] antialiased`}
       >
         <Header />
-        <main>
+        <main >
           <div className="container">{children}</div>
         </main>
+        <Footer />
       </body>
     </html>
   );

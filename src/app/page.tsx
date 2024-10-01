@@ -1,9 +1,11 @@
+import Hero from "./_components/page/hero";
+import ProductList from "./_components/page/product-list";
 
 export default function Home() {
   return (
-    <div className="text-red-600">Home
-      {/* <SvgIcon id="letter" width={20} height={20} /> */}
-    </div>
-    
-  )
+    <>
+      <Hero />
+      <ProductList />
+    </>
+  );
 }

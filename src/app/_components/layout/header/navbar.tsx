@@ -1,6 +1,5 @@
-import IconButton from "@/components/shared/icon-button";
-import { NavLink } from "./nav-link";
-import SvgIcon from "@/components/shared/svg-icon";
+import { NavLink } from "../../shared/nav-link";
+import NavActions from "./nav-actions";
 
 const NAVIGATION_ROUTES = [
   {
@@ -31,22 +30,12 @@ export default function Navbar() {
       <ul className="flex items-center gap-16">
         {NAVIGATION_ROUTES.map((nav_route) => (
           <li key={nav_route.id}>
-            <NavLink href={nav_route.path}>{nav_route.text}</NavLink>
+            <NavLink href={nav_route.path} variant="header">{nav_route.text}</NavLink>
           </li>
         ))}
       </ul>
       <div className="h-4 w-[.0625rem] bg-black" />
-      <div className="flex items-center gap-10">
-        <IconButton>
-          <SvgIcon id="search" />
-        </IconButton>
-        <IconButton>
-          <SvgIcon id="shopping-cart" />
-        </IconButton>
-        <IconButton>
-          <SvgIcon id="user" />
-        </IconButton>
-      </div>
+      <NavActions />
     </nav>
   );
 }
