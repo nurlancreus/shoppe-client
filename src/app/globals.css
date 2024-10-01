@@ -16,8 +16,6 @@
   --font-dm-sans: 'DM Sans', sans-serif;
 
   --color-accent: #A18A68;
-  --color-white: #FFFFFF;
-  --color-black: #000000;
 
   /* Neutral Colors */
   --color-dark-gray: #707070;
@@ -34,18 +32,31 @@
   }
 }
 
-.swiper-container .swiper-pagination-bullet {
-  width: 0.5rem;
-  height: 0.5rem;
-  border: 1px solid white;
-  background-color: white;
-  border-radius: 50%;
-  transition: all 0.3s ease-in-out;
+/* Custom styles for Swiper pagination bullets */
+.swiper-pagination-bullets {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  position: absolute !important;
+  bottom: 16px !important;
+  width: 100% !important;
 }
 
-.swiper-container .swiper-pagination-bullet-active {
-  background-color: transparent;
-  width: 1rem;
-  height: 1rem;
+.swiper-pagination-bullet {
+  width: 12px !important;
+  height: 12px !important;
+  background: white !important;
+  opacity: 0.7 !important;
+  border-radius: 50% !important;
+  transition: all 0.3s ease-in-out !important;
+  border: 1px solid !important;
+  border-color: transparent !important;
 }
 
+.swiper-pagination-bullet-active {
+  width: 16px !important;
+  height: 16px !important;
+  background: transparent !important;
+  opacity: 1 !important;
+  border-color: white !important;
+}

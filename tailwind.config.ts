@@ -10,8 +10,6 @@ const config: Config = {
     extend: {
       colors: {
         accent: "var(--color-accent)",
-        white: "var(--color-white)",
-        black: "var(--color-black)",
         
         // Neutral Colors
         "dark-gray": "var(--color-dark-gray)",
