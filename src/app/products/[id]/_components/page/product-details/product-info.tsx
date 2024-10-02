@@ -1,7 +1,7 @@
 import { formatCurrency } from "@/utils/helpers";
 import ProductRating from "./product-rating";
-import AddToCart from "./add-to-cart";
-import LikeProduct from "./like-product";
+import AddToCart from "../../ui/add-to-cart";
+import LikeProduct from "../../ui/like-product";
 import SocialMedias from "@/components/ui/social-medias";
 
 const socialMediaLinks = [
@@ -21,7 +21,7 @@ const socialMediaLinks = [
 
 const categories: unknown[] = ["bir", "iki"];
 
-export default function ProductDetails() {
+export default function ProductInfo() {
   return (
     <article className="basis-5/12">
       <div className="mb-16 flex flex-col gap-6">

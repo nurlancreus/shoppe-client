@@ -1,19 +1,18 @@
-import { ProductType } from "@/types";
-import { fetchData } from "@/utils/helpers";
-import ProductInfo from "./_components/page/product-info";
+import ProductDetails from "./_components/page/product-details";
 import ProductTab from "./_components/page/product-tab";
 import SimilarItems from "./_components/page/similar-items";
 
-export default async function Product({ params }: { params: { id: string } }) {
-  console.log(params.id);
-
-  const product = await fetchData<ProductType>(`/products/${params.id}`);
-
-  console.log(product);
+export default async function Product({
+  searchParams,
+  params,
+}: {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   return (
     <>
-      <ProductInfo />
-      <ProductTab />
+      <ProductDetails id={params.id} />
+      <ProductTab currentTab={searchParams.tab as string} />
       <SimilarItems />
     </>
   );
