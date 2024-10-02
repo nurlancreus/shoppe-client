@@ -14,8 +14,9 @@ export default async function ProductList() {
         gap="lg"
         columns={3}
         data={products}
+        rowHeight="lg"
         renderProps={(product) => {
-          return <Product key={product.id} product={product} />;
+          return <Product key={product.id} imageSize="lg" product={product} />;
         }}
       />
     </section>

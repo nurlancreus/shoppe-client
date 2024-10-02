@@ -1,6 +1,8 @@
 import { ProductType } from "@/types";
 import { fetchData } from "@/utils/helpers";
 import ProductInfo from "./_components/page/product-info";
+import ProductTab from "./_components/page/product-tab";
+import SimilarItems from "./_components/page/similar-items";
 
 export default async function Product({ params }: { params: { id: string } }) {
   console.log(params.id);
@@ -11,6 +13,8 @@ export default async function Product({ params }: { params: { id: string } }) {
   return (
     <>
       <ProductInfo />
+      <ProductTab />
+      <SimilarItems />
     </>
   );
 }

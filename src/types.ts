@@ -6,3 +6,9 @@ export type ProductType = {
   stock: number;
   discount: number | null;
 };
+
+export type SocialMedia = {
+  platform: string;
+  url: string;
+  ariaLabel: string;
+};
