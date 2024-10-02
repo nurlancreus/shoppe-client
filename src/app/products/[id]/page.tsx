@@ -1,5 +1,16 @@
-import React from "react";
+import { ProductType } from "@/types";
+import { fetchData } from "@/utils/helpers";
+import ProductInfo from "./_components/page/product-info";
 
-export default function Product(params: { id: string }) {
-  return <div>Product ID: {params.id}</div>;
+export default async function Product({ params }: { params: { id: number } }) {
+  console.log(params.id);
+
+  const product = await fetchData<ProductType>(`/products/${params.id}`);
+
+  console.log(product);
+  return (
+    <>
+      <ProductInfo />
+    </>
+  );
 }

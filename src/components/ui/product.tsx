@@ -61,15 +61,14 @@ export default function Product({
               height={380}
               className="transition-transform duration-300 ease-in-out group-hover:scale-105"
             />
+            <div className="absolute inset-0 flex items-end justify-center bg-white bg-opacity-20 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100" />
           </Link>
 
           {/* Hover Overlay */}
-          <div className="absolute inset-0 z-10 flex items-end justify-center bg-white bg-opacity-20 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
-            <div className="w-full translate-y-full transform bg-white bg-opacity-50 py-4 text-center transition-transform duration-300 ease-in-out group-hover:translate-y-0">
-              <button className="px-4 py-2 text-sm font-bold uppercase text-black transition">
-                Add to Cart
-              </button>
-            </div>
+          <div className="z-10 w-full translate-y-full transform bg-white bg-opacity-50 py-4 text-center transition-transform duration-300 ease-in-out group-hover:translate-y-0">
+            <button className="px-4 py-2 text-sm font-bold uppercase text-black transition">
+              Add to Cart
+            </button>
           </div>
         </div>
 

@@ -15,11 +15,15 @@ type FetchOptions = {
   headers?: { [key: string]: string };
 };
 
+
+
 export const fetchData = async <T>(
   endpoint: string,
   options?: FetchOptions,
 ): Promise<T> => {
   const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${endpoint}`;
+
+  console.log(url);
 
   const response = await fetch(url, {
     method: options?.method || "GET",
@@ -36,3 +40,5 @@ export const fetchData = async <T>(
 
   return response.json() as Promise<T>;
 };
+
+
