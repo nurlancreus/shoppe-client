@@ -1,8 +1,9 @@
 import { formatCurrency } from "@/utils/helpers";
-import ProductRating from "./product-rating";
+import Rating from "../../ui/rating";
 import AddToCart from "../../ui/add-to-cart";
 import LikeProduct from "../../ui/like-product";
 import SocialMedias from "@/components/ui/social-medias";
+import { SocialMedia } from "@/types";
 
 const socialMediaLinks = [
   { platform: "Gmail", url: "https://www.gmail.com", ariaLabel: "Gmail" },
@@ -21,29 +22,34 @@ const socialMediaLinks = [
 
 const categories: unknown[] = ["bir", "iki"];
 
-export default function ProductInfo() {
+export default function ProductInfo({
+  title,
+  info,
+  price,
+  avRating,
+}: {
+  title: string;
+  info: string;
+  price: number;
+  avRating: number;
+}) {
   return (
     <article className="basis-5/12">
       <div className="mb-16 flex flex-col gap-6">
-        <h4 className="text-h2-desktop">Title</h4>
+        <h4 className="text-h2-desktop">{title}</h4>
 
         <p className="text-h4-desktop font-medium text-accent">
-          {formatCurrency(200)}
+          {formatCurrency(price)}
         </p>
       </div>
 
-      <ProductRating defaultRating={4} />
-      <p className="mb-12 mt-5 text-h5-desktop text-dark-gray">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-        placerat, augue a volutpat hendrerit, sapien tortor faucibus augue, a
-        maximus elit ex vitae libero. Sed quis mauris eget arcu facilisis
-        consequat sed eu felis.{" "}
-      </p>
+      <Rating defaultRating={Math.round(avRating)} />
+      <p className="mb-12 mt-5 text-h5-desktop text-dark-gray">{info} </p>
       <AddToCart />
       <div className="mb-10 flex items-center gap-10">
         <LikeProduct />
         <span className="inline-block h-5 w-[1px] bg-dark-gray" />
-        <SocialMedias socialMedias={socialMediaLinks} />
+        <SocialMedias socialMedias={socialMediaLinks as SocialMedia[]} />
       </div>
       <div className="flex items-center gap-4 text-h5-desktop">
         <span className="text-black">Categories: </span>

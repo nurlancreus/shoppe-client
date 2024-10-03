@@ -60,3 +60,13 @@
   opacity: 1 !important;
   border-color: white !important;
 }
+
+polyline,
+path {
+  fill: inherit !important;
+  stroke: inherit !important;
+}
+
+svg path {
+  fill: inherit !important;
+}

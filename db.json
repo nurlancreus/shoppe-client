@@ -2,48 +2,364 @@
   "products": [
     {
       "id": "1",
-      "imageUrl": "/images/product-01.png",
       "name": "Product 1",
       "price": 100,
       "stock": 10,
       "discount": 20,
-      "description": "lorem text"
+      "description": "lorem text",
+      "additionalInfo": {
+        "weight": 300,
+        "dimentions": [15, 10, 1],
+        "colors": ["Black", "Browns", "White"],
+        "material": ["Metal"]
+      },
+      "images": [
+        {
+          "id": "1",
+          "url": "https://via.placeholder.com/600x400?text=Main+Image",
+          "isMain": true
+        },
+        {
+          "id": "2",
+          "url": "https://via.placeholder.com/150?text=Image+1",
+          "isMain": false
+        },
+        {
+          "id": "3",
+          "url": "https://via.placeholder.com/150?text=Image+2",
+          "isMain": false
+        },
+        {
+          "id": "4",
+          "url": "https://via.placeholder.com/150?text=Image+3",
+          "isMain": false
+        },
+        {
+          "id": "5",
+          "url": "https://via.placeholder.com/150?text=Image+4",
+          "isMain": false
+        }
+      ],
+      "reviews": [
+        {
+          "id": "1",
+          "firstName": "John",
+          "lastName": "Doe",
+          "date": "2024-10-01T10:00:00Z",
+          "body": "Great product!",
+          "rating": 5
+        },
+        {
+          "id": "2",
+          "firstName": "Jane",
+          "lastName": "Smith",
+          "date": "2024-10-02T12:00:00Z",
+          "body": "Good value for money.",
+          "rating": 4
+        }
+      ],
+      "avRating": 4.5
     },
     {
       "id": "2",
-      "imageUrl": "/images/product-01.png",
       "name": "Product 2",
       "price": 150,
       "stock": 0,
       "discount": null,
-      "description": "lorem text"
+      "description": "lorem text",
+      "additionalInfo": {
+        "weight": 500,
+        "dimentions": [20, 15, 2],
+        "colors": ["Red", "Blue"],
+        "material": ["Plastic"]
+      },
+      "images": [
+        {
+          "id": "1",
+          "url": "https://via.placeholder.com/600x400?text=Main+Image",
+          "isMain": true
+        },
+        {
+          "id": "2",
+          "url": "https://via.placeholder.com/150?text=Image+1",
+          "isMain": false
+        },
+        {
+          "id": "3",
+          "url": "https://via.placeholder.com/150?text=Image+2",
+          "isMain": false
+        },
+        {
+          "id": "4",
+          "url": "https://via.placeholder.com/150?text=Image+3",
+          "isMain": false
+        },
+        {
+          "id": "5",
+          "url": "https://via.placeholder.com/150?text=Image+4",
+          "isMain": false
+        }
+      ],
+      "reviews": [
+        {
+          "id": "1",
+          "firstName": "Alice",
+          "lastName": "Johnson",
+          "date": "2024-10-01T15:00:00Z",
+          "body": "Not what I expected.",
+          "rating": 2
+        },
+        {
+          "id": "2",
+          "firstName": "Bob",
+          "lastName": "Brown",
+          "date": "2024-10-02T16:00:00Z",
+          "body": "Decent quality.",
+          "rating": 3
+        }
+      ],
+      "avRating": 2.5
     },
     {
       "id": "3",
-      "imageUrl": "/images/product-01.png",
       "name": "Product 3",
       "price": 200,
       "stock": 5,
       "discount": 10,
-      "description": "lorem text"
+      "description": "lorem text",
+      "additionalInfo": {
+        "weight": 800,
+        "dimentions": [25, 20, 3],
+        "colors": ["Green", "Yellow"],
+        "material": ["Wood"]
+      },
+      "images": [
+        {
+          "id": "1",
+          "url": "https://via.placeholder.com/600x400?text=Main+Image",
+          "isMain": true
+        },
+        {
+          "id": "2",
+          "url": "https://via.placeholder.com/150?text=Image+1",
+          "isMain": false
+        },
+        {
+          "id": "3",
+          "url": "https://via.placeholder.com/150?text=Image+2",
+          "isMain": false
+        },
+        {
+          "id": "4",
+          "url": "https://via.placeholder.com/150?text=Image+3",
+          "isMain": false
+        },
+        {
+          "id": "5",
+          "url": "https://via.placeholder.com/150?text=Image+4",
+          "isMain": false
+        }
+      ],
+      "reviews": [
+        {
+          "id": "1",
+          "firstName": "Charlie",
+          "lastName": "Davis",
+          "date": "2024-10-01T18:00:00Z",
+          "body": "Very sturdy.",
+          "rating": 5
+        },
+        {
+          "id": "2",
+          "firstName": "Diana",
+          "lastName": "Evans",
+          "date": "2024-10-02T09:00:00Z",
+          "body": "Met my expectations.",
+          "rating": 4
+        }
+      ],
+      "avRating": 4.5
     },
     {
       "id": "4",
-      "imageUrl": "/images/product-01.png",
       "name": "Product 4",
       "price": 250,
       "stock": 0,
       "discount": null,
-      "description": "lorem text"
+      "description": "lorem text",
+      "additionalInfo": {
+        "weight": 1000,
+        "dimentions": [30, 25, 4],
+        "colors": ["Black", "Gray"],
+        "material": ["Glass"]
+      },
+      "images": [
+        {
+          "id": "1",
+          "url": "https://via.placeholder.com/600x400?text=Main+Image",
+          "isMain": true
+        },
+        {
+          "id": "2",
+          "url": "https://via.placeholder.com/150?text=Image+1",
+          "isMain": false
+        },
+        {
+          "id": "3",
+          "url": "https://via.placeholder.com/150?text=Image+2",
+          "isMain": false
+        },
+        {
+          "id": "4",
+          "url": "https://via.placeholder.com/150?text=Image+3",
+          "isMain": false
+        },
+        {
+          "id": "5",
+          "url": "https://via.placeholder.com/150?text=Image+4",
+          "isMain": false
+        }
+      ],
+      "reviews": [
+        {
+          "id": "1",
+          "firstName": "Edward",
+          "lastName": "Foster",
+          "date": "2024-10-01T11:30:00Z",
+          "body": "Looks great on my shelf.",
+          "rating": 5
+        },
+        {
+          "id": "2",
+          "firstName": "Fiona",
+          "lastName": "Garcia",
+          "date": "2024-10-02T14:45:00Z",
+          "body": "Heavy and well made.",
+          "rating": 4
+        }
+      ],
+      "avRating": 4.5
     },
     {
       "id": "5",
-      "imageUrl": "/images/product5.jpg",
       "name": "Product 5",
       "price": 300,
       "stock": 20,
       "discount": 15,
-      "description": "lorem text"
+      "description": "lorem text",
+      "additionalInfo": {
+        "weight": 1500,
+        "dimentions": [35, 30, 5],
+        "colors": ["Purple", "Orange"],
+        "material": ["Metal", "Plastic"]
+      },
+      "images": [
+        {
+          "id": "1",
+          "url": "https://via.placeholder.com/600x400?text=Main+Image",
+          "isMain": true
+        },
+        {
+          "id": "2",
+          "url": "https://via.placeholder.com/150?text=Image+1",
+          "isMain": false
+        },
+        {
+          "id": "3",
+          "url": "https://via.placeholder.com/150?text=Image+2",
+          "isMain": false
+        },
+        {
+          "id": "4",
+          "url": "https://via.placeholder.com/150?text=Image+3",
+          "isMain": false
+        },
+
+        {
+          "id": "5",
+          "url": "https://via.placeholder.com/150?text=Image+4",
+          "isMain": false
+        }
+      ],
+      "reviews": [
+        {
+          "id": "1",
+          "firstName": "Edward",
+          "lastName": "Foster",
+          "date": "2024-10-01T11:30:00Z",
+          "body": "Looks great on my shelf.",
+          "rating": 5
+        },
+        {
+          "id": "2",
+          "firstName": "Fiona",
+          "lastName": "Garcia",
+          "date": "2024-10-02T14:45:00Z",
+          "body": "Heavy and well made.",
+          "rating": 4
+        }
+      ],
+      "avRating": 4.5
+    },
+    {
+      "id": "6",
+      "name": "Product 6",
+      "price": 300,
+      "stock": 20,
+      "discount": 15,
+      "description": "lorem text",
+      "additionalInfo": {
+        "weight": 1500,
+        "dimentions": [35, 30, 5],
+        "colors": ["Purple", "Orange"],
+        "material": ["Metal", "Plastic"]
+      },
+      "images": [
+        {
+          "id": "1",
+          "url": "https://via.placeholder.com/600x400?text=Main+Image",
+          "isMain": true
+        },
+        {
+          "id": "2",
+          "url": "https://via.placeholder.com/150?text=Image+1",
+          "isMain": false
+        },
+        {
+          "id": "3",
+          "url": "https://via.placeholder.com/150?text=Image+2",
+          "isMain": false
+        },
+        {
+          "id": "4",
+          "url": "https://via.placeholder.com/150?text=Image+3",
+          "isMain": false
+        },
+        {
+          "id": "5",
+          "url": "https://via.placeholder.com/150?text=Image+4",
+          "isMain": false
+        }
+      ],
+      "reviews": [
+        {
+          "id": "1",
+          "firstName": "George",
+          "lastName": "Harris",
+          "date": "2024-10-01T08:00:00",
+          "body": "Looks great on my shelf.",
+          "rating": 5
+        },
+        {
+          "id": "2",
+          "firstName": "Fiona",
+          "lastName": "Garcia",
+          "date": "2024-10-02T14:45:00Z",
+          "body": "Heavy and well made.",
+          "rating": 4
+        }
+      ],
+      "avRating": 4.5
     }
   ]
 }

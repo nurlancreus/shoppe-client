@@ -18,7 +18,7 @@ export default function SocialMedias({ socialMedias }: SocialMediasProps) {
       case "twitter":
         return "twitter";
       default:
-        return "letter"; // Fallback icon in case the platform is not recognized
+        return "letter"; 
     }
   };
 

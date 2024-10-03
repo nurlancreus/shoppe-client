@@ -4,11 +4,19 @@ import React from "react";
 
 type IconButtonProps = {
   children: React.ReactNode;
- onClick: () => void;
+  className: string;
+  onClick: () => void;
 };
-export default function IconButton({ children, onClick}: IconButtonProps) {
+export default function IconButton({
+  children,
+  className,
+  onClick,
+}: IconButtonProps) {
   return (
-    <button className="border-none bg-transparent" onClick={onClick}>
+    <button
+      className={`border-none bg-transparent ${className}`}
+      onClick={onClick}
+    >
       {children}
     </button>
   );

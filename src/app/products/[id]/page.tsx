@@ -12,7 +12,7 @@ export default async function Product({
   return (
     <>
       <ProductDetails id={params.id} />
-      <ProductTab currentTab={searchParams.tab as string} />
+      <ProductTab id={params.id} currentTab={searchParams.tab as string} />
       <SimilarItems />
     </>
   );

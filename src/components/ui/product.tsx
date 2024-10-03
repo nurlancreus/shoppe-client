@@ -1,19 +1,11 @@
+import { ProductType } from "@/types";
 import { formatCurrency } from "@/utils/helpers";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 type ProductProps = {
-  product: {
-    id: string;
-    imageUrl: string;
-    name: string;
-    price: number;
-    stock: number;
-    discount: number | null;
-    category?: string; // Added category property
-    isNew?: boolean; // Added isNew property to mark new products
-  };
+  product: ProductType;
   imageSize?: keyof typeof imageSizeStyles; // New prop for image size
 };
 
@@ -23,12 +15,17 @@ const imageSizeStyles = {
   lg: "size-[23.75rem]", // Large size
 };
 
+const isNew = false;
+const category = "";
+
 export default function Product({
-  product: { id, discount, name, price, stock, category, isNew },
+  product: { id, discount, name, price, stock, images },
   imageSize = "md", // Default image size
 }: ProductProps) {
   // Calculate the discounted price if discount exists
   const discountedPrice = discount ? price - (price * discount) / 100 : price;
+
+  const mainImage = images.find((image) => image.isMain);
 
   return (
     <article className="group cursor-pointer">
@@ -62,7 +59,7 @@ export default function Product({
         {/* Product Image */}
         <Link href={`/products/${id}`}>
           <Image
-            src={"/images/product-01.png"} // Use product's actual imageUrl
+            src={mainImage?.url ?? ""} // Use product's actual imageUrl
             alt={name}
             width={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}
             height={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}

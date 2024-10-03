@@ -12,17 +12,15 @@ export default function LikeButton({
   handleClick,
 }: LikeButtonProps) {
   return (
-    <div className="group">
-      <IconButton onClick={handleClick}>
-        {isLiked ? (
-          <SvgIcon id="heart" className="text-black" />
-        ) : (
-          <SvgIcon
-            id="heart"
-            className="transition duration-300 group-hover:text-black"
-          />
-        )}
-      </IconButton>
-    </div>
+    <IconButton onClick={handleClick} className="group">
+      {isLiked ? (
+        <SvgIcon id="heart" className="text-black" />
+      ) : (
+        <SvgIcon
+          id="heart"
+          className="text-black transition duration-300 group-hover:text-black"
+        />
+      )}
+    </IconButton>
   );
 }

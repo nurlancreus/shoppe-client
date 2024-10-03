@@ -19,7 +19,7 @@ export default function SvgIcon({
       aria-hidden="true"
     >
       {/* Ensure correct path */}
-      <use href={`/icons/sprite.svg#${id}`} />
+      <use href={`/icons/sprite.svg#${id}`} className="fill-current"/>
     </svg>
     
   );

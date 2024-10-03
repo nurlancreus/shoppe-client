@@ -1,14 +1,28 @@
+import { ProductType } from "@/types";
+import { fetchData } from "@/utils/helpers";
 import TabButtons from "./tab-buttons";
 import TabContent from "./tab-content";
+import AdditionalInfo from "../product-details/additional-info";
+import Reviews from "../reviews";
 
-export default function ProductTab({ currentTab }: { currentTab: string }) {
+export default async function ProductTab({
+  id,
+  currentTab,
+}: {
+  id: string;
+  currentTab: string;
+}) {
+  const product = await fetchData<ProductType>(`/products/${id}`);
+
   return (
     <section className="my-24">
       <TabButtons />
       <TabContent>
-        {currentTab === "description" && <p>Description content...</p>}
-        {currentTab === "additional-info" && <p>Additional Info content...</p>}
-        {currentTab === "reviews" && <p>Reviews content...</p>}
+        {currentTab === "description" && <p>{product.description}</p>}
+        {currentTab === "additional-info" && (
+          <AdditionalInfo info={product.additionalInfo} />
+        )}
+        {currentTab === "reviews" && <Reviews product={product} />}
       </TabContent>
     </section>
   );

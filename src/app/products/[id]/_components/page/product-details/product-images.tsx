@@ -14,7 +14,7 @@ export default function ProductImages({ images }: ProductImagesProps) {
   const others: ImageType[] = [];
   let mainImage: ImageType | undefined;
 
-  images.forEach((image) => {
+  images?.forEach((image) => {
     if (image.isMain) mainImage = image;
     else others.push(image);
   });

@@ -12,7 +12,7 @@ export default async function SimilarItems() {
 
       <CardWrapper
         gap="lg"
-        data={products}
+        data={products.slice(0,3)}
         rowHeight="lg"
         columns={3}
         renderProps={(p) => <Product imageSize="lg" key={p.id} product={p} />}
