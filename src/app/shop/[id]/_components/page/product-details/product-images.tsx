@@ -30,7 +30,7 @@ export default function ProductImages({ images }: ProductImagesProps) {
             src={image.url} // Use dynamic image URL from the array
             alt={`product-thumbnail-${image.id}`}
             fill
-            objectFit="cover"
+            style={{ objectFit: "cover" }}
           />
         </article>
       ))}
@@ -41,7 +41,7 @@ export default function ProductImages({ images }: ProductImagesProps) {
             src={mainImage.url}
             alt="main product image"
             fill
-            objectFit="cover"
+            style={{ objectFit: "cover" }}
           />
         </article>
       ) : (

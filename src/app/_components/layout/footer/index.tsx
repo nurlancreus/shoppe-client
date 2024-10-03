@@ -3,6 +3,7 @@ import Navbar from "./navbar";
 import Search from "./search";
 import Copyright from "./copyright";
 import SocialMedias from "../../../../components/ui/social-medias";
+import { SocialMedia } from "@/types";
 
 const socialMediaLinks = [
   {
@@ -25,7 +26,7 @@ const socialMediaLinks = [
 
 export default function Footer() {
   return (
-    <footer className="mb-[5.625rem]">
+    <footer className="mb-[5.625rem] mt-64">
       <div className="container flex flex-col gap-12 border-t border-light-gray pt-9">
         <div className="flex items-center justify-between">
           <Navbar />
@@ -33,7 +34,7 @@ export default function Footer() {
         </div>
         <div className="flex items-center justify-between">
           <Copyright />
-          <SocialMedias socialMedias={socialMediaLinks} />
+          <SocialMedias socialMedias={socialMediaLinks as SocialMedia[]} />
         </div>
       </div>
     </footer>

@@ -4,6 +4,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import "swiper/css";
 import "swiper/css/pagination";
+import Button from "@/components/ui/button";
 
 export default function Hero() {
   const slides = [
@@ -36,12 +37,12 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative h-[40rem] w-full overflow-hidden mb-16">
+    <section className="relative mb-16 h-[40rem] w-full overflow-hidden">
       <Swiper
         pagination={pagination}
         modules={[Pagination, Autoplay]}
         className="mySwiper"
-        autoplay={{ delay: 5000 }}
+        autoplay={{ delay: 10000 }}
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
@@ -57,12 +58,19 @@ export default function Hero() {
                 height={646}
               />
               {/* Overlay */}
-              <div className="from-black/50 absolute inset-0 flex flex-col items-start justify-center bg-gradient-to-r to-transparent pl-8 pr-4 text-white lg:pl-16">
+              <div className="absolute inset-0 flex flex-col items-start justify-center bg-gradient-to-r from-black/50 to-transparent pl-8 pr-4 text-white lg:pl-16">
                 <h2 className="mb-4 text-h1-desktop">{slide.title}</h2>
                 <p className="mb-6 text-h2-desktop">{slide.price}</p>
-                <button className="border border-white px-6 py-2 transition hover:bg-white hover:text-black">
+                <Button
+                  type="button"
+                  variant="outlined"
+                  className="text-white hover:!text-black hover:bg-white"
+                >
                   View Product
-                </button>
+                </Button>
+                {/* <button className="border border-white px-6 py-2 transition hover:bg-white hover:text-black">
+                  View Product
+                </button> */}
               </div>
             </div>
           </SwiperSlide>

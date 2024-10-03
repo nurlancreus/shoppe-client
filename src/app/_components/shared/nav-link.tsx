@@ -11,12 +11,17 @@ type NavLinkProps = Omit<ComponentProps<typeof Link>, "className"> & {
 
 export function NavLink({ variant = "header", ...props }: NavLinkProps) {
   const pathname = usePathname();
+  const indexOfLastSlash = pathname.lastIndexOf("/");
+
+  let path = pathname;
+
+  if (indexOfLastSlash !== 0) path = pathname.slice(0, indexOfLastSlash);
 
   return (
     <Link
       {...props}
       className={clsx(
-        "relative inline-block pb-2 transition duration-300 hover:opacity-80 group",
+        "group relative inline-block pb-2 transition duration-300 hover:opacity-80",
         variant === "header"
           ? "text-h5-desktop text-black"
           : "text-h5-desktop uppercase text-dark-gray",
@@ -24,8 +29,8 @@ export function NavLink({ variant = "header", ...props }: NavLinkProps) {
       )}
     >
       {props.children}
-      {pathname === props.href && (
-        <span className="absolute left-0 right-0 bottom-[-16px] h-[2px] bg-black transition-opacity duration-300 opacity-100"></span>
+      {path === props.href && (
+        <span className="absolute bottom-[-16px] left-0 right-0 h-[2px] bg-black opacity-100 transition-opacity duration-300"></span>
       )}
     </Link>
   );

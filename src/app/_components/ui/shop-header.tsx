@@ -1,3 +1,4 @@
+import Heading from "@/components/ui/heading";
 import Link from "next/link";
 
 type ShopHeaderProps = {
@@ -8,7 +9,7 @@ type ShopHeaderProps = {
 export default function ShopHeader({ title, href }: ShopHeaderProps) {
   return (
     <header className="flex items-center justify-between mb-10">
-      <h3 className="text-h1-desktop font-medium">{title}</h3>
+      <Heading>{title}</Heading>
       <Link href={href} className="text-h4-desktop font-medium text-accent">
         View All
       </Link>

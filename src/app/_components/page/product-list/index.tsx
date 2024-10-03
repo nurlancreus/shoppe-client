@@ -8,7 +8,7 @@ export default async function ProductList() {
   const products = await fetchData<Array<ProductType>>("/products");
 
   return (
-    <section id="product-list" className="mb-64">
+    <section id="product-list">
       <ShopHeader title="Shop the Latest" href="/shop" />
       <CardWrapper
         gap="lg"

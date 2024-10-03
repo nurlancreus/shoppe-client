@@ -1,3 +1,4 @@
+import clsx from "clsx";
 
 type InputProps = {
   type: "text" | "email" | "textarea";
@@ -10,7 +11,7 @@ type InputProps = {
   ) => void;
   rows?: number;
   className?: string;
-  error?: string; 
+  error?: string;
 };
 
 export default function Input({
@@ -34,7 +35,10 @@ export default function Input({
           rows={rows}
           value={value}
           onChange={onChange}
-          className={`w-full resize-none border-b border-b-dark-gray py-3 text-body-medium text-black transition duration-200 placeholder:text-body-medium placeholder:text-dark-gray focus:border-b-black focus:outline-transparent ${className}`}
+          className={clsx(
+            "w-full resize-none border-b border-b-dark-gray py-3 text-body-medium text-black transition duration-200 placeholder:text-body-medium placeholder:text-dark-gray focus:border-b-black focus:outline-transparent",
+            className
+          )}
         />
       ) : (
         <input
@@ -44,11 +48,13 @@ export default function Input({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`w-full border-b border-b-dark-gray pb-3 text-body-medium text-black transition duration-200 placeholder:text-body-medium placeholder:text-dark-gray focus:border-b-black focus:outline-transparent ${className}`}
+          className={clsx(
+            "w-full border-b border-b-dark-gray pb-3 text-body-medium text-black transition duration-200 placeholder:text-body-medium placeholder:text-dark-gray focus:border-b-black focus:outline-transparent",
+            className
+          )}
         />
       )}
       {error && <span className="mt-1 text-sm text-red-500">{error}</span>}{" "}
-      {/* Error message */}
     </div>
   );
 }

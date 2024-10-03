@@ -18,7 +18,7 @@ export default function SocialMedias({ socialMedias }: SocialMediasProps) {
       case "twitter":
         return "twitter";
       default:
-        return "letter"; 
+        return "letter";
     }
   };
 
@@ -29,7 +29,7 @@ export default function SocialMedias({ socialMedias }: SocialMediasProps) {
           <Link href={media.url} target="_blank" aria-label={media.ariaLabel}>
             <SvgIcon
               id={renderIcon(media.platform)}
-              className="group-hover:text-black"
+              className="text-dark-gray group-hover:text-black transition duration-200"
             />
           </Link>
         </li>

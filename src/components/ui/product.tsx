@@ -9,6 +9,7 @@ type ProductProps = {
   imageSize?: keyof typeof imageSizeStyles; // New prop for image size
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const imageSizeStyles = {
   sm: "h-24 w-24", // Small size
   md: "size-[18.75rem]", // Medium size
@@ -57,13 +58,15 @@ export default function Product({
         )}
 
         {/* Product Image */}
-        <Link href={`/products/${id}`}>
+        <Link href={`/shop/${id}`}>
           <Image
             src={mainImage?.url ?? ""} // Use product's actual imageUrl
             alt={name}
-            width={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}
-            height={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}
-            className={`transition-transform duration-300 ease-in-out group-hover:scale-105`} // Apply image size styles
+             width={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}
+             height={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}
+            //fill
+            style={{ objectFit: "cover" }}
+            className={`transition-transform duration-300 ease-in-out group-hover:scale-105 ${imageSizeStyles[imageSize]}`} // Apply image size styles
           />
           <div className="absolute inset-0 flex items-end justify-center bg-white bg-opacity-20 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100" />
         </Link>

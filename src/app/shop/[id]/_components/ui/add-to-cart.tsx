@@ -1,4 +1,5 @@
 "use client";
+import Button from "@/components/ui/button";
 import CartActions from "@/components/ui/cart-actions";
 import { useState } from "react";
 
@@ -20,9 +21,9 @@ export default function AddToCart() {
         handleDecrement={handleDecrement}
         handleIncrement={handleIncrement}
       />
-      <button className="rounded-md border border-black px-32 py-4 text-body-large font-bold uppercase transition duration-300 hover:bg-black hover:text-white">
+      <Button type="button" variant="outlined" className="w-full">
         Add to Cart
-      </button>
+      </Button>
     </div>
   );
 }

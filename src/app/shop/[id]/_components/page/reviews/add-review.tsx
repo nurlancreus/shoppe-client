@@ -2,7 +2,8 @@
 import { useState } from "react";
 import AddRating from "./add-rating";
 import { RatingValueType } from "@/types";
-import ReviewInput from "../../../../../../components/ui/input";
+import Input from "../../../../../../components/ui/input";
+import Button from "@/components/ui/button";
 
 export default function AddReview() {
   const [rating, setRating] = useState<RatingValueType>(0);
@@ -81,7 +82,7 @@ export default function AddReview() {
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col gap-11">
-          <ReviewInput
+          <Input
             type="text"
             name="first-name"
             id="first-name"
@@ -90,7 +91,7 @@ export default function AddReview() {
             onChange={handleInputChange}
             error={errors.firstName} // Pass error message
           />
-          <ReviewInput
+          <Input
             type="text"
             name="last-name"
             id="last-name"
@@ -99,7 +100,7 @@ export default function AddReview() {
             onChange={handleInputChange}
             error={errors.lastName} // Pass error message
           />
-          <ReviewInput
+          <Input
             type="email"
             name="email"
             id="email"
@@ -108,7 +109,7 @@ export default function AddReview() {
             onChange={handleInputChange}
             error={errors.email} // Pass error message
           />
-          <ReviewInput
+          <Input
             type="textarea"
             name="review-body"
             id="review-body"
@@ -136,12 +137,10 @@ export default function AddReview() {
             <AddRating onSetRating={handleRating} />
           </div>
         </div>
-        <button
-          type="submit"
-          className="hover:bg-gray-800 mt-12 rounded-md bg-black px-8 py-4 text-body-large text-white transition"
-        >
+        <Button className="mt-12">
           Submit
-        </button>
+        </Button>
+
       </form>
     </div>
   );

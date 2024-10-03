@@ -10,10 +10,10 @@ export default async function Product({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   return (
-    <>
+    <div className="mt-32">
       <ProductDetails id={params.id} />
       <ProductTab id={params.id} currentTab={searchParams.tab as string} />
       <SimilarItems />
-    </>
+    </div>
   );
 }
