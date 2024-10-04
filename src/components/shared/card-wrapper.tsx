@@ -5,15 +5,15 @@ const gapStyles = {
 };
 
 const columnStyles = {
-  [-1]: "", 
+  [-1]: "",
   1: "grid-cols-1",
   2: "grid-cols-2",
   3: "grid-cols-3",
 };
 
 const rowStyles = {
-  sm: "auto-rows-24", 
-  md: "auto-rows-[24.5rem]", 
+  sm: "auto-rows-24",
+  md: "auto-rows-[24.5rem]",
   lg: "auto-rows-[29.5rem]",
 };
 
@@ -29,7 +29,7 @@ type CardWrapperProps<T> = {
 export default function CardWrapper<T>({
   gap,
   columns = -1,
-  rowHeight = "sm", // Default row height
+  rowHeight = undefined, // Default row height
   data,
   renderProps,
   className = "",
@@ -38,7 +38,9 @@ export default function CardWrapper<T>({
     columns === -1 ? "overflow-x-auto" : columnStyles[columns]; // Use scrollable class if columns is -1
 
   return (
-    <div className={`grid ${columnClass} ${gapStyles[gap]} ${rowStyles[rowHeight]} ${className}`}>
+    <div
+      className={`grid ${columnClass} ${gapStyles[gap]} ${rowHeight ? rowStyles[rowHeight] : ""} ${className}`}
+    >
       {data.map(renderProps)}
     </div>
   );

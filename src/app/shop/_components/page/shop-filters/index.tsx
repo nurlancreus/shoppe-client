@@ -1,5 +1,5 @@
 import Select from "@/components/ui/select";
-import Search from "./search";
+import Search from "../../../../../components/ui/search";
 import ToggleSwitch from "@/components/ui/toggle-switch";
 
 const shopByOptions = [

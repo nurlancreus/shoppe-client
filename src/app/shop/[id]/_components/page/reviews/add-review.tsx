@@ -71,10 +71,12 @@ export default function AddReview() {
 
   return (
     <div>
-      <h5 className="mb-3 text-h3-desktop">Add Review</h5>
-      <p className="text-sm text-dark-gray">
-        Your email address will not be published. Required fields are marked *
-      </p>
+      <header>
+        <h5 className="mb-3 text-h3-desktop">Add Review</h5>
+        <p className="text-sm text-dark-gray">
+          Your email address will not be published. Required fields are marked *
+        </p>
+      </header>
       <form
         id="add-review-form"
         name="add-review-form"
@@ -137,10 +139,7 @@ export default function AddReview() {
             <AddRating onSetRating={handleRating} />
           </div>
         </div>
-        <Button className="mt-12">
-          Submit
-        </Button>
-
+        <Button className="mt-12">Submit</Button>
       </form>
     </div>
   );

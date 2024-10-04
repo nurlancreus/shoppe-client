@@ -11,7 +11,7 @@ type SelectProps = {
   paramKey: string;
   label?: string;
   defaultText?: string;
-  multiple?: boolean; 
+  multiple?: boolean;
 };
 
 export default function Select({
@@ -24,8 +24,8 @@ export default function Select({
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentValue = multiple
-    ? searchParams.getAll(paramKey) 
-    : searchParams.get(paramKey) || ""; 
+    ? searchParams.getAll(paramKey)
+    : searchParams.get(paramKey) || "";
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { options } = e.target;
@@ -37,7 +37,7 @@ export default function Select({
         .map((option) => option.value);
 
       if (selectedValues.length) {
-        params.delete(paramKey); 
+        params.delete(paramKey);
         selectedValues.forEach((value) => {
           params.append(paramKey, value);
         });
@@ -63,8 +63,8 @@ export default function Select({
         id={paramKey}
         value={currentValue}
         onChange={handleChange}
-        className="appearance-none px-3 py-4 block w-full"
-        multiple={multiple} 
+        className="block w-full cursor-pointer appearance-none px-3 py-4"
+        multiple={multiple}
       >
         {!multiple && <option value="">{defaultText}</option>}
         {options.map((option) => (
@@ -73,7 +73,12 @@ export default function Select({
           </option>
         ))}
       </select>
-      <SvgIcon id="caret" className="absolute bottom-6 right-3 top-6" width={14} height={7} />
+      <SvgIcon
+        id="caret"
+        className="-z-1 pointer-events-none absolute bottom-6 right-3 top-6"
+        width={14}
+        height={7}
+      />
     </div>
   );
 }

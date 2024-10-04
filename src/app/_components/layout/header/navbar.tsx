@@ -9,7 +9,7 @@ const NAVIGATION_ROUTES = [
   },
   {
     id: 2,
-    path: "/blog",
+    path: "/blogs",
     text: "Blog",
   },
   {

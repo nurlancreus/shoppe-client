@@ -10,7 +10,7 @@ export const formatCurrency = (
 };
 
 // dateHelper.ts
-export function formatDate(date: Date): string {
+export function formatDate(date: Date | string): string {
   const parsedDate = typeof date === 'string' ? new Date(date) : date;
   
   // Check if the parsedDate is valid

@@ -12,7 +12,7 @@ export type AdditionalInfoType = {
 };
 
 export type ReviewType = {
-  id: string,
+  id: string;
   firstName: string;
   lastName: string;
   date: Date; // Make sure to handle the date format properly in your app
@@ -34,10 +34,31 @@ export type ProductType = {
 };
 
 export type SocialMedia = {
-  id: string
+  id: string;
   platform: string;
   url: string;
   ariaLabel: string;
+};
+
+export type BlogType = {
+  id: number;
+  title: string;
+  author: string;
+  date: string;
+  category: string;
+  excerpt: string;
+  content: string;
+  images: ImageType[];
+  tags: string[];
+};
+
+export type CommentType = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  added: string;
+  body: string;
+  replies?: CommentType[];
 };
 
 export type RatingValueType = 0 | 1 | 2 | 3 | 4 | 5;

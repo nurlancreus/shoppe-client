@@ -1,5 +1,22 @@
 import React from "react";
+import clsx from "clsx";
 
-export default function Heading({ children }: { children: React.ReactNode }) {
-  return <h3 className="text-h1-desktop font-semibold">{children}</h3>;
+interface HeadingProps {
+  as?: keyof JSX.IntrinsicElements;
+  className?: string;
+  children: React.ReactNode;
 }
+
+const Heading: React.FC<HeadingProps> = ({ 
+  as: Component = "h3",
+  className, 
+  children 
+}) => {
+  return (
+    <Component className={clsx("text-h1-desktop font-semibold", className)}>
+      {children}
+    </Component>
+  );
+};
+
+export default Heading;

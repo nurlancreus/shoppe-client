@@ -30,13 +30,13 @@ export default function Select({
 }: SelectProps) {
   return (
     <div>
-      <div className="border-b relative border-b-dark-gray">
+      <div className="relative border-b border-b-dark-gray">
         {label && <label htmlFor={id}>{label}</label>}
         <select
           id={id}
           value={value}
           onChange={onChange}
-          className="block w-full appearance-none py-4 focus-visible:outline-transparent"
+          className="block w-full cursor-pointer appearance-none py-4 focus-visible:outline-transparent"
         >
           <option value="">{defaultText}</option>
           {options.map((option) => (
@@ -47,7 +47,7 @@ export default function Select({
         </select>
         <SvgIcon
           id="caret"
-          className="absolute bottom-6 right-3 top-6"
+          className="-z-1 pointer-events-none absolute bottom-6 right-3 top-6"
           width={14}
           height={7}
         />

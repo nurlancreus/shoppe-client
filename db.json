@@ -361,5 +361,57 @@
       ],
       "avRating": 4.5
     }
+  ],
+
+  "blogs": [
+    {
+      "id": 1,
+      "title": "Top Trends From Spring",
+      "author": "ANNY JOHNSON",
+      "date": "October 8, 2020",
+      "category": "Fashion",
+      "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus augue, a maximus elit ex vitae libero...",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam placerat, augue a volutpat hendrerit, sapien tortor faucibus augue, a maximus elit ex vitae libero...",
+      "images": [
+        {
+          "id": "1",
+          "url": "https://via.placeholder.com/600x400?text=Main+Image",
+          "isMain": true
+        },
+        {
+          "id": "2",
+          "url": "https://via.placeholder.com/600x400?text=Second+Image",
+          "isMain": false
+        },
+        {
+          "id": "3",
+          "url": "https://via.placeholder.com/600x400?text=Third+Image",
+          "isMain": false
+        }
+      ],
+      "tags": ["Fashion", "Style", "Season"]
+    },
+    {
+      "id": 2,
+      "title": "Fast Fashion, And Faster Fashion",
+      "author": "ANNY JOHNSON",
+      "date": "October 8, 2020",
+      "category": "Fashion",
+      "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus augue, a maximus elit ex vitae libero...",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam placerat, augue a volutpat hendrerit, sapien tortor faucibus augue, a maximus elit ex vitae libero...",
+      "images": [
+        {
+          "id": "1",
+          "url": "https://via.placeholder.com/600x400?text=Main+Image",
+          "isMain": true
+        },
+        {
+          "id": "2",
+          "url": "https://via.placeholder.com/600x400?text=Second+Image",
+          "isMain": false
+        }
+      ],
+      "tags": ["Fashion", "Trends", "Style"]
+    }
   ]
 }
