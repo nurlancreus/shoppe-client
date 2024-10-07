@@ -1,4 +1,4 @@
-import { formatCurrency } from "@/utils/helpers";
+import { formatCurrency } from "@/utils/client-utils";
 import Rating from "../../ui/rating";
 import AddToCart from "../../ui/add-to-cart";
 import LikeProduct from "../../ui/like-product";

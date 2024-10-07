@@ -1,16 +1,17 @@
 import clsx from "clsx";
 
 type InputProps = {
-  type: "text" | "email" | "textarea";
+  type: "text" | "email" | "password" | "textarea";
   name: string;
   id: string;
   placeholder: string;
   value?: string;
   onChange?: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   rows?: number;
   className?: string;
+  formControllClassName?: string;
   error?: string;
 };
 
@@ -23,10 +24,11 @@ export default function Input({
   onChange,
   rows,
   className = "",
+  formControllClassName = "",
   error,
 }: InputProps) {
   return (
-    <div className="flex flex-col">
+    <div className={clsx("flex flex-col relative", formControllClassName)}>
       {type === "textarea" ? (
         <textarea
           name={name}
@@ -36,7 +38,7 @@ export default function Input({
           value={value}
           onChange={onChange}
           className={clsx(
-            "w-full resize-none border-b border-b-dark-gray py-3 text-body-medium text-black transition duration-200 placeholder:text-body-medium placeholder:text-dark-gray focus:border-b-black focus:outline-transparent",
+            "w-full resize-none border-b border-b-gray py-3 text-body-medium text-black transition duration-200 placeholder:text-body-medium placeholder:text-dark-gray focus:border-b-black focus:outline-transparent",
             className
           )}
         />
@@ -49,12 +51,16 @@ export default function Input({
           value={value}
           onChange={onChange}
           className={clsx(
-            "w-full border-b border-b-dark-gray pb-3 text-body-medium text-black transition duration-200 placeholder:text-body-medium placeholder:text-dark-gray focus:border-b-black focus:outline-transparent",
+            "w-full border-b border-b-gray pb-3 text-body-medium text-black transition duration-200 placeholder:text-body-medium placeholder:text-dark-gray focus:border-b-black focus:outline-transparent",
             className
           )}
         />
       )}
-      {error && <span className="mt-1 text-sm text-red-500">{error}</span>}{" "}
+      {error && (
+        <span className="absolute text-sm text-red-500 -bottom-6 left-0 mt-1">
+          {error}
+        </span>
+      )}
     </div>
   );
 }

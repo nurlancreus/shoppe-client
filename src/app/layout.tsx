@@ -3,6 +3,7 @@ import { Allerta_Stencil, DM_Sans } from "next/font/google"; // Import from next
 import "./globals.css";
 import Header from "./_components/layout/header";
 import Footer from "./_components/layout/footer";
+import { getUser } from "@/utils/server-utils";
 
 // Google fonts
 const allertaStencil = Allerta_Stencil({
@@ -27,13 +28,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log(getUser(), "USER PAYLOAD");
   return (
     <html lang="en">
       <body
         className={`${allertaStencil.variable} ${dmSans.variable} grid min-h-screen grid-rows-[auto,1fr,auto] antialiased`}
       >
         <Header />
-        <main >
+        <main>
           <div className="container">{children}</div>
         </main>
         <Footer />

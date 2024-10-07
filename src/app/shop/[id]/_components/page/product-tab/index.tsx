@@ -1,5 +1,5 @@
 import { ProductType } from "@/types";
-import { fetchData } from "@/utils/helpers";
+import { fetchData } from "@/utils/client-utils";
 import TabButtons from "./tab-buttons";
 import TabContent from "./tab-content";
 import AdditionalInfo from "../product-details/additional-info";

@@ -1,7 +1,7 @@
 import CardWrapper from "@/components/shared/card-wrapper";
 import Product from "@/components/ui/product";
 import { ProductType } from "@/types";
-import { fetchData } from "@/utils/helpers";
+import { fetchData } from "@/utils/client-utils";
 
 export default async function SimilarItems() {
   const products = await fetchData<Array<ProductType>>("/products");
@@ -12,7 +12,7 @@ export default async function SimilarItems() {
 
       <CardWrapper
         gap="lg"
-        data={products.slice(0,3)}
+        data={products.slice(0, 3)}
         rowHeight="lg"
         columns={3}
         renderProps={(p) => <Product imageSize="lg" key={p.id} product={p} />}

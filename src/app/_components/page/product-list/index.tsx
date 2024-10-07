@@ -1,6 +1,6 @@
 import CardWrapper from "@/components/shared/card-wrapper";
 import ShopHeader from "../../ui/shop-header";
-import { fetchData } from "@/utils/helpers";
+import { fetchData } from "@/utils/client-utils";
 import { type ProductType } from "@/types";
 import Product from "@/components/ui/product";
 

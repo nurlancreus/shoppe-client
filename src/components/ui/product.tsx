@@ -1,5 +1,5 @@
 import { ProductType } from "@/types";
-import { formatCurrency } from "@/utils/helpers";
+import { formatCurrency } from "@/utils/client-utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -62,8 +62,8 @@ export default function Product({
           <Image
             src={mainImage?.url ?? ""} // Use product's actual imageUrl
             alt={name}
-             width={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}
-             height={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}
+            width={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}
+            height={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}
             //fill
             style={{ objectFit: "cover" }}
             className={`transition-transform duration-300 ease-in-out group-hover:scale-105 ${imageSizeStyles[imageSize]}`} // Apply image size styles

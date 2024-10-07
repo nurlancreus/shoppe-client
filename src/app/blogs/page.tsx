@@ -1,7 +1,7 @@
 import CardWrapper from "@/components/shared/card-wrapper";
 import Heading from "@/components/ui/heading";
 import { BlogType } from "@/types";
-import { fetchData } from "@/utils/helpers";
+import { fetchData } from "@/utils/client-utils";
 import BlogFilters from "./_components/blog-filters";
 import BlogCard from "./_components/ui/blog-card";
 import Pagination from "@/components/shared/pagination";
@@ -19,7 +19,7 @@ export default async function Blogs() {
           <div className="basis-1/4">
             <BlogFilters />
           </div>
-          <div className="flex flex-col gap-16 items-center">
+          <div className="flex flex-col items-center gap-16">
             <CardWrapper
               gap="md"
               columns={2}

@@ -1,4 +1,4 @@
-import { NavLink } from "../../shared/nav-link";
+import { NavLink } from "../../../../components/shared/nav-link";
 import NavActions from "./nav-actions";
 
 const NAVIGATION_ROUTES = [
@@ -30,7 +30,9 @@ export default function Navbar() {
       <ul className="flex items-center gap-16">
         {NAVIGATION_ROUTES.map((nav_route) => (
           <li key={nav_route.id}>
-            <NavLink href={nav_route.path} variant="header">{nav_route.text}</NavLink>
+            <NavLink href={nav_route.path} variant="header">
+              {nav_route.text}
+            </NavLink>
           </li>
         ))}
       </ul>

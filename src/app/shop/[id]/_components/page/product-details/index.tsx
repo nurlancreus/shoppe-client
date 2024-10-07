@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ProductType } from "@/types";
-import { fetchData } from "@/utils/helpers";
+import { fetchData } from "@/utils/client-utils";
 import ProductInfo from "./product-info";
 import ProductImages from "./product-images";
 
@@ -39,7 +39,12 @@ export default async function ProductDetails({ id }: { id: string }) {
   return (
     <div className="flex items-center justify-between gap-16">
       <ProductImages images={product.images} />
-      <ProductInfo avRating={product.avRating} info={product.description} price={product.price} title={product.name}/>
+      <ProductInfo
+        avRating={product.avRating}
+        info={product.description}
+        price={product.price}
+        title={product.name}
+      />
     </div>
   );
 }

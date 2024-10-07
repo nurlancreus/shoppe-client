@@ -1,5 +1,6 @@
 "use client";
 import clsx from "clsx";
+import Spinner from "./spinner";
 
 type ButtonProps = {
   type?: "button" | "submit" | "reset";
@@ -8,6 +9,7 @@ type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
+  isLoading?: boolean;
 };
 
 export default function Button({
@@ -17,6 +19,7 @@ export default function Button({
   children,
   onClick,
   disabled = false,
+  isLoading = false,
 }: ButtonProps) {
   return (
     <button
@@ -24,9 +27,9 @@ export default function Button({
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        "rounded-md px-8 py-4 text-body-large transition",
+        "rounded-md px-8 py-4 text-body-large flex items-center justify-center gap-3 transition",
         {
-          "hover:bg-gray-800 bg-black text-white border hover:border-black hover:bg-white hover:text-black":
+          "hover:bg-gray-800 border bg-black text-white hover:border-black hover:bg-white hover:text-black":
             variant === "black",
           "hover:bg-gray-100 border border-black bg-white text-black hover:bg-black hover:text-white":
             variant === "white",
@@ -36,6 +39,7 @@ export default function Button({
         className,
       )}
     >
+      {isLoading && <Spinner color={variant === "outlined" ? "black" : "light"} />}
       {children}
     </button>
   );

@@ -2,7 +2,7 @@ import CardWrapper from "@/components/shared/card-wrapper";
 import Heading from "@/components/ui/heading";
 import Product from "@/components/ui/product";
 import { ProductType } from "@/types";
-import { fetchData } from "@/utils/helpers";
+import { fetchData } from "@/utils/client-utils";
 import ShopFilters from "./_components/page/shop-filters";
 
 export default async function Shop({
@@ -13,7 +13,7 @@ export default async function Shop({
   const products = await fetchData<Array<ProductType>>("/products");
 
   console.log(searchParams);
-  
+
   return (
     <div className="mt-24">
       <header className="mb-10">

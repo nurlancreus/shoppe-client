@@ -1,7 +1,7 @@
 import React from "react";
 import Rating from "../../ui/rating";
 import { RatingValueType, ReviewType } from "@/types";
-import { formatDate } from "@/utils/helpers";
+import { formatDate } from "@/utils/client-utils";
 
 type ReviewProps = {
   review: ReviewType;

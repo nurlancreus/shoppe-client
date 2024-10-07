@@ -6,7 +6,7 @@ import { CommentType } from "@/types";
 import { useState } from "react";
 import AddComment from "./add-comment-form";
 import CommentList from "./comment-list";
-import { formatDate } from "@/utils/helpers";
+import { formatDate } from "@/utils/client-utils";
 
 type CommentProps = {
   comment: CommentType;
