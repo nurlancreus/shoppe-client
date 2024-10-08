@@ -34,9 +34,12 @@ export default function RootLayout({
       <body
         className={`${allertaStencil.variable} ${dmSans.variable} grid min-h-screen grid-rows-[auto,1fr,auto] antialiased`}
       >
+          {/* umumu suspense sal */}
         <Header />
         <main>
-          <div className="container">{children}</div>
+          <div className="container">
+            {children}
+            </div>
         </main>
         <Footer />
       </body>

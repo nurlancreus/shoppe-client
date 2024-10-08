@@ -1,4 +1,4 @@
-import ProductDetails from "./_components/page/product-details";
+import ProductDetails from "./_components/page/product-details/index.tsx"; // wrote full pathname (index.tsx included)
 import ProductTab from "./_components/page/product-tab";
 import SimilarItems from "./_components/page/similar-items";
 

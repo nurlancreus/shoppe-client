@@ -9,8 +9,8 @@ const user = getUser();
   return (
     <div className="flex items-center gap-10">
       <Search />
-      <Cart />
-      <Account isAuth={user?.isAuth}/>
+      {/* <Cart /> */}
+      <Account isAuth={user?.isAuth} userRoles={user?.roles}/>
     </div>
   );
 }

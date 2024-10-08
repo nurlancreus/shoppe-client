@@ -5,22 +5,22 @@ const NAVIGATION_ROUTES = [
   {
     id: 1,
     path: "/shop",
-    text: "Shop",
+    label: "Shop",
   },
   {
     id: 2,
     path: "/blogs",
-    text: "Blog",
+    label: "Blog",
   },
   {
     id: 3,
     path: "/about",
-    text: "Our Story",
+    label: "Our Story",
   },
   {
     id: 4,
     path: "/contact",
-    text: "Contact Us",
+    label: "Contact Us",
   },
 ];
 
@@ -31,7 +31,7 @@ export default function Navbar() {
         {NAVIGATION_ROUTES.map((nav_route) => (
           <li key={nav_route.id}>
             <NavLink href={nav_route.path} variant="header">
-              {nav_route.text}
+              {nav_route.label}
             </NavLink>
           </li>
         ))}

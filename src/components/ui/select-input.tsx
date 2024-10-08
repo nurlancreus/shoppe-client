@@ -1,6 +1,7 @@
 "use client";
 
 import SvgIcon from "@/components/shared/svg-icon";
+import clsx from "clsx";
 
 type SelectProps = {
   options: {
@@ -12,6 +13,7 @@ type SelectProps = {
   defaultText?: string;
   value?: string;
   error?: string;
+  className?: string;
   onChange?: (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -25,17 +27,18 @@ export default function Select({
   label,
   value,
   onChange,
+  className,
   error,
   defaultText = "Select an option",
 }: SelectProps) {
   return (
-    <div>
-      <div className="relative border-b border-b-dark-gray">
+    <div className={clsx("border-b border-b-dark-gray", className)}>
+      <div className="relative">
         {label && <label htmlFor={id}>{label}</label>}
         <select
           id={id}
           value={value}
-          onChange={onChange}
+          onChange={(e) => onChange?.(e)}
           className="block w-full cursor-pointer appearance-none py-4 focus-visible:outline-transparent"
         >
           <option value="">{defaultText}</option>

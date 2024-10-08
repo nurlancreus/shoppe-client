@@ -1,12 +1,11 @@
 import { AuthResponse } from "@/types";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   console.log("HIT");
   try {
-    const data = await request.json(); 
-    const { email, password } = data; 
+    const data = await request.json();
+    const { email, password } = data;
 
     const response = await fetch(`${process.env.BASE_API_URL}/auth/login`, {
       method: "POST",
@@ -14,7 +13,7 @@ export async function POST(request: Request) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-      credentials: "include", 
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -25,29 +24,42 @@ export async function POST(request: Request) {
     console.log(tokenData, "TOKENNNNN");
 
     if (tokenData) {
-      const cookieStore = cookies();
+      console.log("HITTTTT");
+      
+      console.log("MEN BURDAYAM")
+      
+      const nextResponse = NextResponse.json(tokenData);
+      /*
 
-      cookieStore.delete("accessToken");
-      cookieStore.delete("refreshToken");
-      cookieStore.delete("expiresAt");
+      // nextResponse.cookies.delete("accessToken");
+      // nextResponse.cookies.delete("refreshToken");
+      // nextResponse.cookies.delete("expiresAt");
 
-      cookieStore.set("accessToken", tokenData.token.accessToken, {
-        httpOnly: true, 
-        path: "/", 
-        secure: process.env.NODE_ENV === "production", 
-      });
-      cookieStore.set("refreshToken", tokenData.token.refreshToken, {
+      //const isProduction = process.env.NODE_ENV === "production";  
+      const isProduction = false;  
+      
+
+      nextResponse.cookies.set("accessToken", tokenData.token.accessToken, {
         httpOnly: true,
         path: "/",
-        secure: process.env.NODE_ENV === "production",
-      });
-      cookieStore.set("expiresAt", tokenData.token.expiresAt, {
-        path: "/",
+        secure: isProduction,  
+        sameSite: "lax",
       });
 
-      console.log("HITTTTT");
+      nextResponse.cookies.set("refreshToken", tokenData.token.refreshToken, {
+        httpOnly: true,
+        path: "/",
+        secure: isProduction,  
+        sameSite: "lax",
+      });
+
+      nextResponse.cookies.set("expiresAt", tokenData.token.expiresAt, {
+        path: "/",
+        sameSite: isProduction ? "strict" : "lax",
+      });
+*/
+      return nextResponse;
     }
-    return NextResponse.json(tokenData);
   } catch (error) {
     console.error("Error during login:", error);
     return NextResponse.error();

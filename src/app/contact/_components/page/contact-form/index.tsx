@@ -1,7 +1,7 @@
 "use client";
 import Input from "@/components/ui/input";
 import React, { useState } from "react";
-import Select from "../../ui/select";
+import SelectInput from "../../../../../components/ui/select-input";
 import Button from "@/components/ui/button";
 
 const contactFormSubjects = [
@@ -122,7 +122,7 @@ export default function ContactForm() {
           error={errors.email}
           className="text-h5-desktop"
         />
-        <Select
+        <SelectInput
           value={subject}
           id="subject"
           onChange={handleInputChange}

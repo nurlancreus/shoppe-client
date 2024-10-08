@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { AuthResponse } from "@/types";
 
-// Define a Zod schema for registration validation
 const registerSchema = z
   .object({
     firstName: z.string().min(1, "First Name is required"),
@@ -21,10 +20,12 @@ const registerSchema = z
   });
 
 export async function registerAction(prevState: unknown, formData: FormData) {
-  const result = registerSchema.safeParse(Object.fromEntries(formData.entries()));
+  const result = registerSchema.safeParse(
+    Object.fromEntries(formData.entries()),
+  );
 
   if (!result.success) {
-    return result.error.formErrors.fieldErrors; 
+    return result.error.formErrors.fieldErrors;
   }
 
   const data = result.data;
@@ -39,7 +40,7 @@ export async function registerAction(prevState: unknown, formData: FormData) {
     throw new Error("Registration failed");
   }
 
-  const tokenData = await response.json() as AuthResponse;
+  const tokenData = (await response.json()) as AuthResponse;
 
   if (tokenData) {
     const cookieStore = cookies();
@@ -59,7 +60,7 @@ export async function registerAction(prevState: unknown, formData: FormData) {
     cookieStore.set("expiresAt", tokenData.token.expiresAt);
   }
 
-  revalidatePath("/"); 
+  revalidatePath("/");
 }
 
 const loginSchema = z.object({
@@ -71,12 +72,12 @@ export async function loginAction(prevState: unknown, formData: FormData) {
   const result = loginSchema.safeParse(Object.fromEntries(formData.entries()));
 
   if (!result.success) {
-    return result.error.formErrors.fieldErrors; 
+    return result.error.formErrors.fieldErrors;
   }
 
   const data = result.data;
 
-  const response = await fetch(`${process.env.LOCAL_API_URL}/auth/login`, {
+  const response = await fetch(`${process.env.BASE_API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -84,11 +85,51 @@ export async function loginAction(prevState: unknown, formData: FormData) {
   });
 
   if (!response.ok) {
-    throw new Error("Login failed");
+    const error = await response.json();
+    console.log(error)
+    throw new Error("Login failed", error);
   }
 
-  const tokenData = (await response.json());
+  const tokenData = await response.json();
 
-  console.log(tokenData, "TOKEN FROM RESPONSE");
-  revalidatePath("/"); 
+  if (tokenData) {
+    /*
+    const cookieStore = cookies();
+
+    cookieStore.delete("accessToken");
+    cookieStore.delete("refreshToken");
+    cookieStore.delete("expiresAt");
+
+    const isProduction = process.env.NODE_ENV === "production";
+
+    cookieStore.set("accessToken", tokenData.token.accessToken, {
+      httpOnly: true,
+      path: "/",
+      secure: isProduction, 
+      sameSite: "strict",
+    });
+
+    cookieStore.set("refreshToken", tokenData.token.refreshToken, {
+      httpOnly: true,
+      path: "/",
+      secure: isProduction, 
+      sameSite: "strict",
+    });
+
+    cookieStore.set("expiresAt", tokenData.token.expiresAt, {
+      path: "/",
+      sameSite: "strict",
+    });
+*/
+    console.log(tokenData, "TOKEN FROM RESPONSE");
+    revalidatePath("/");
+  }
+}
+
+export async function logoutAction() {
+  const cookieStore = cookies();
+
+  cookieStore.delete("accessToken");
+  cookieStore.delete("refreshToken");
+  cookieStore.delete("expiresAt");
 }

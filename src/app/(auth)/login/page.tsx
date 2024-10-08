@@ -4,7 +4,7 @@ import Input from "@/components/ui/input";
 import SubmitButton from "@/components/ui/submit-button";
 import Link from "next/link";
 import { useFormState } from "react-dom";
-import { loginAction } from "../../_components/_actions/users";
+import { loginAction } from "../../_components/_actions/auth";
 
 export default function LoginPage() {
   const [errors, action] = useFormState(loginAction, {});

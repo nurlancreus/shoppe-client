@@ -2,7 +2,7 @@
 import Input from "@/components/ui/input";
 import Link from "next/link";
 import { useFormState } from "react-dom";
-import { registerAction } from "../../_components/_actions/users";
+import { registerAction } from "../../_components/_actions/auth";
 import SubmitButton from "@/components/ui/submit-button";
 
 export default function RegisterPage() {

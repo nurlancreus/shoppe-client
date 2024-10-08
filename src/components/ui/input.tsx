@@ -6,6 +6,7 @@ type InputProps = {
   id: string;
   placeholder: string;
   value?: string;
+  defaultValue?: string;
   onChange?: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
@@ -21,6 +22,7 @@ export default function Input({
   id,
   placeholder,
   value,
+  defaultValue,
   onChange,
   rows,
   className = "",
@@ -37,6 +39,7 @@ export default function Input({
           rows={rows}
           value={value}
           onChange={onChange}
+          defaultValue={defaultValue}
           className={clsx(
             "w-full resize-none border-b border-b-gray py-3 text-body-medium text-black transition duration-200 placeholder:text-body-medium placeholder:text-dark-gray focus:border-b-black focus:outline-transparent",
             className
@@ -49,6 +52,7 @@ export default function Input({
           id={id}
           placeholder={placeholder}
           value={value}
+          defaultValue={defaultValue}
           onChange={onChange}
           className={clsx(
             "w-full border-b border-b-gray pb-3 text-body-medium text-black transition duration-200 placeholder:text-body-medium placeholder:text-dark-gray focus:border-b-black focus:outline-transparent",

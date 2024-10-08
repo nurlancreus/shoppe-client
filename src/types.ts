@@ -65,7 +65,7 @@ export type RatingValueType = 0 | 1 | 2 | 3 | 4 | 5;
 
 export type Token = {
   accessToken: string;
-  expiresAt: string; // Consider using Date if you plan to manipulate this value.
+  expiresAt: string; 
   refreshToken: string;
 }
 
