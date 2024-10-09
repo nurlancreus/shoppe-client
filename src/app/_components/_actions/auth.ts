@@ -93,7 +93,7 @@ export async function loginAction(prevState: unknown, formData: FormData) {
   const tokenData = await response.json();
 
   if (tokenData) {
-    /*
+    
     const cookieStore = cookies();
 
     cookieStore.delete("accessToken");
@@ -117,10 +117,12 @@ export async function loginAction(prevState: unknown, formData: FormData) {
     });
 
     cookieStore.set("expiresAt", tokenData.token.expiresAt, {
+      httpOnly: true,
       path: "/",
+      secure: isProduction, 
       sameSite: "strict",
     });
-*/
+
     console.log(tokenData, "TOKEN FROM RESPONSE");
     revalidatePath("/");
   }

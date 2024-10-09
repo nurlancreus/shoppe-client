@@ -65,12 +65,58 @@ export type RatingValueType = 0 | 1 | 2 | 3 | 4 | 5;
 
 export type Token = {
   accessToken: string;
-  expiresAt: string; 
+  expiresAt: string;
   refreshToken: string;
-}
+};
 
 export type AuthResponse = {
   token: Token;
   isSuccess: boolean;
   message: string;
+};
+
+export type CartItemType = {
+  id: string;
+  title: string;
+  category: string;
+  price: number;
+  imageUrl: string;
+  quantity: number;
+};
+
+export type ProductImageDTOType = {
+  fileName: string;
+  pathName: string;
+  isMain: boolean;
+}
+
+export type ProductDTOType = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  weight: number;
+  height: number;
+  width: number;
+  material: string;
+  colors: string[];
+  categories: { id: string; name: string }[];
+  productImages: ProductImageDTOType[];
+  rating: number;
+  createdAt: Date;
+};
+
+export type CreateProductDTOType = {
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  weight: number;
+  height: number;
+  width: number;
+  material: string;
+  colors: string[];
+  categoryIds: string[];
+  productImages: File[]; // Handling file uploads with FormData
 }
