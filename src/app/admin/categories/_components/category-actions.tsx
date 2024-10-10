@@ -6,33 +6,28 @@ import Modal from "../../_components/ui/modal";
 import { useRouter } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../../_components/ui/dropdown-menu";
 
-
-export default function ProductActions({ id }: { id: string }) {
+export default function CategoryActions({ id }: { id: string }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(
-    null
-  );
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const router = useRouter();
 
   const handleView = (id: string) => {
-    console.log(`Viewing product with ID: ${id}`);
-    // Logic to view product page
+    console.log(`Viewing category with ID: ${id}`);
   };
 
   const handleUpdate = (id: string) => {
-    console.log(`Updating product with ID: ${id}`);
-    router.push(`products/${id}/update`);
-    // Logic to update product
+    console.log(`Updating category with ID: ${id}`);
+    router.push(`categories/${id}/update`); // Update the route as needed
   };
 
   const handleDelete = (id: string) => {
-    setSelectedProductId(id);
+    setSelectedCategoryId(id);
     setShowDeleteModal(true);
   };
 
   const confirmDelete = () => {
-    console.log(`Deleting product with ID: ${selectedProductId}`);
-    // Logic to delete product
+    console.log(`Deleting category with ID: ${selectedCategoryId}`);
+    // Logic to delete category
     setShowDeleteModal(false);
   };
 
@@ -69,7 +64,7 @@ export default function ProductActions({ id }: { id: string }) {
       {showDeleteModal && (
         <Modal
           title="Confirm Delete"
-          description="Are you sure you want to delete this product?"
+          description="Are you sure you want to delete this category?"
           isOpen={showDeleteModal}
           onClose={cancelDelete}
           onConfirm={confirmDelete}

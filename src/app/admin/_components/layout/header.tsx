@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
@@ -17,8 +17,8 @@ const NAVIGATION_ROUTES = [
   },
   {
     id: 4,
-    path: "/admin/category",
-    label: "Category",
+    path: "/admin/categories",
+    label: "Categories",
   },
   {
     id: 5,
@@ -56,7 +56,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="bg-slate-900 py-4 mb-16">
+    <header className="mb-16 bg-slate-900 py-4">
       <div className="container mx-auto">
         <ul className="flex items-center justify-center gap-4">
           {NAVIGATION_ROUTES.map(({ id, path, label }) => (
@@ -64,7 +64,6 @@ export default function Header() {
               <Button
                 asChild
                 variant={pathname === path ? "outline" : "default"}
-                
                 className="hover:bg-slate-200 hover:text-slate-900"
               >
                 <Link href={path}> {label}</Link>

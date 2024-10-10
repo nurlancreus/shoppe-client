@@ -2,34 +2,80 @@
 
 import React, { useState } from "react";
 import { Button } from "../../_components/ui/button";
-import { Label } from "@radix-ui/react-label";
+import { Label } from "../../_components/ui/label";
 import { Input } from "../../_components/ui/input";
 import Image from "next/image";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import { ProductDTOType } from "@/types";
 import {
   addProductAction,
   updateProductAction,
 } from "@/app/_components/_actions/products";
 
-const categoryIds: string[] = [];
+// Import shadcn Dropdown components
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../../_components/ui/dropdown-menu";
+import { Textarea } from "../../_components/ui/textarea";
+import SubmitButton from "../../_components/ui/submit-btn";
+
+// Mock data for categories
+const mockCategories = [
+  { id: "C001", name: "Electronics" },
+  { id: "C002", name: "Furniture" },
+  { id: "C003", name: "Clothing" },
+];
+
+const colorOptions = ["Red", "Blue", "Green", "Yellow", "Black", "White"];
 
 type ProductFormProps = {
   product?: ProductDTOType | null;
 };
 
 export default function ProductForm({ product = null }: ProductFormProps) {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    product?.categories.map((category) => category.id) || [],
+  );
+
+  const [selectedColors, setSelectedColors] = useState<string[]>(
+    product?.colors || [],
+  );
+
   const [error, action] = useFormState(
-    product ? updateProductAction.bind(null, product.id) : addProductAction,
+    product
+      ? updateProductAction.bind(
+          null,
+          product.id,
+          selectedCategories,
+          selectedColors,
+        )
+      : addProductAction.bind(null, selectedCategories, selectedColors),
     {},
   );
-  //   const [price, setPrice] = useState<number | undefined>(product?.price);
-  //   const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
 
   let mainImage = null;
-
-  if (product != null)
+  if (product != null) {
     mainImage = product.productImages.find((image) => image.isMain);
+  }
+
+  const handleCategoryChange = (id: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+  };
+
+  const handleColorChange = (color: string) => {
+    setSelectedColors((prev) =>
+      prev.includes(color)
+        ? prev.filter((item) => item !== color)
+        : [...prev, color],
+    );
+  };
 
   return (
     <form action={action} className="space-y-8">
@@ -42,33 +88,24 @@ export default function ProductForm({ product = null }: ProductFormProps) {
           defaultValue={product?.name ?? ""}
           className="w-full"
         />
-        {error.name && <div className="text-destructive">{error.name}</div>}
+        <div className="text-destructive">{error?.name?.[0]}</div>
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="price">Price</Label>
-        <Input
-          type="number"
-          id="price"
-          name="price"
-          
-          className="w-full"
-        />
-        {error.price && <div className="text-destructive">{error.price}</div>}
+        <Input type="number" id="price" name="price" className="w-full" />
+        <div className="text-destructive">{error?.price?.[0]}</div>
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
-        <textarea
+        <Textarea
           id="description"
           name="description"
-          
           defaultValue={product?.description ?? ""}
           className="h-24 w-full rounded border p-2"
         />
-        {error.description && (
-          <div className="text-destructive">{error.description}</div>
-        )}
+        <div className="text-destructive">{error?.description?.[0]}</div>
       </div>
 
       <div className="space-y-2">
@@ -77,11 +114,10 @@ export default function ProductForm({ product = null }: ProductFormProps) {
           type="number"
           id="stock"
           name="stock"
-          
           defaultValue={product?.stock ?? 0}
           className="w-full"
         />
-        {error.stock && <div className="text-destructive">{error.stock}</div>}
+        <div className="text-destructive">{error?.stock?.[0]}</div>
       </div>
 
       <div className="space-y-2">
@@ -90,11 +126,10 @@ export default function ProductForm({ product = null }: ProductFormProps) {
           type="number"
           id="weight"
           name="weight"
-          
           defaultValue={product?.weight ?? 0}
           className="w-full"
         />
-        {error.weight && <div className="text-destructive">{error.weight}</div>}
+        <div className="text-destructive">{error?.weight?.[0]}</div>
       </div>
 
       <div className="space-y-2">
@@ -103,11 +138,10 @@ export default function ProductForm({ product = null }: ProductFormProps) {
           type="number"
           id="height"
           name="height"
-          
           defaultValue={product?.height ?? 0}
           className="w-full"
         />
-        {error.height && <div className="text-destructive">{error.height}</div>}
+        <div className="text-destructive">{error?.height?.[0]}</div>
       </div>
 
       <div className="space-y-2">
@@ -116,11 +150,10 @@ export default function ProductForm({ product = null }: ProductFormProps) {
           type="number"
           id="width"
           name="width"
-          
           defaultValue={product?.width ?? 0}
           className="w-full"
         />
-        {error.width && <div className="text-destructive">{error.width}</div>}
+        <div className="text-destructive">{error?.width?.[0]}</div>
       </div>
 
       <div className="space-y-2">
@@ -129,40 +162,62 @@ export default function ProductForm({ product = null }: ProductFormProps) {
           type="text"
           id="material"
           name="material"
-          
           defaultValue={product?.material ?? ""}
           className="w-full"
         />
-        {error.material && (
-          <div className="text-destructive">{error.material}</div>
-        )}
+        <div className="text-destructive">{error?.material?.[0]}</div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="colors">Colors (comma separated)</Label>
-        <Input
-          type="text"
-          id="colors"
-          name="colors"
-          
-          defaultValue={product?.colors.join(", ") ?? ""}
-          className="w-full"
-        />
-        {error.colors && <div className="text-destructive">{error.colors}</div>}
+      {/* Dropdown Menu for Colors */}
+      <div className="w-1/4 space-y-2">
+        <Label htmlFor="colors">Colors (select multiple)</Label>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="w-full">
+              Select Colors
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Select Colors</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {colorOptions.map((color) => (
+              <DropdownMenuCheckboxItem
+                key={color}
+                checked={selectedColors.includes(color)}
+                onCheckedChange={() => handleColorChange(color)}
+              >
+                {color}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <div className="text-destructive">{error?.colors?.[0]}</div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="categoryIds">Category IDs (comma separated)</Label>
-        <Input
-          type="text"
-          id="categoryIds"
-          name="categoryIds"
-          defaultValue={categoryIds.join(", ") ?? ""}
-          className="w-full"
-        />
-        {error?.categoryIds && (
-          <div className="text-destructive">{error.categoryIds}</div>
-        )}
+      {/* Dropdown Menu for Category IDs */}
+      <div className="w-1/4 space-y-2">
+        <Label htmlFor="categoryIds">Category IDs (select multiple)</Label>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="w-full">
+              Select Categories
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Select Categories</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {mockCategories.map((category) => (
+              <DropdownMenuCheckboxItem
+                key={category.id}
+                checked={selectedCategories.includes(category.id)}
+                onCheckedChange={() => handleCategoryChange(category.id)}
+              >
+                {category.name}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <div className="text-destructive">{error?.categoryIds?.[0]}</div>
       </div>
 
       <div className="space-y-2">
@@ -173,8 +228,8 @@ export default function ProductForm({ product = null }: ProductFormProps) {
           name="productImages"
           accept="image/*"
           multiple
-          // onChange={(e) => setSelectedImages(Array.from(e.target.files || []))}
           className="w-full"
+          required={product === null}
         />
         {mainImage != null && (
           <div className="relative h-40 w-60">
@@ -186,22 +241,13 @@ export default function ProductForm({ product = null }: ProductFormProps) {
             />
           </div>
         )}
-        {error.productImages && (
-          <div className="text-destructive">{error.productImages}</div>
-        )}
+
+        <div className="text-destructive">{error?.productImages?.[0]}</div>
       </div>
 
-      <SubmitButton />
+      <SubmitButton pendingCase={product ? "Updating..." : "Saving..."}>
+        {product ? "Update" : "Save"}
+      </SubmitButton>
     </form>
-  );
-}
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button type="submit" disabled={pending} className="w-full">
-      {pending ? "Saving..." : "Save"}
-    </Button>
   );
 }

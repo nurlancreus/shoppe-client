@@ -88,7 +88,7 @@ export type ProductImageDTOType = {
   fileName: string;
   pathName: string;
   isMain: boolean;
-}
+};
 
 export type ProductDTOType = {
   id: string;
@@ -119,4 +119,27 @@ export type CreateProductDTOType = {
   colors: string[];
   categoryIds: string[];
   productImages: File[]; // Handling file uploads with FormData
+};
+
+export type CategoryDTOType = {
+  id: string;
+  name: string;
+  description?: string | null;
+};
+
+export type AppResponse = {
+  isSuccess: boolean;
+  message?: string | null;
+};
+
+export type AppResponseWithData<T> = AppResponse & {
+  data: T; 
+};
+
+export type PaginatedResponse<T> = {
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalItems: number;
+  data: T[]; 
 }
