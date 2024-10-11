@@ -4,13 +4,17 @@ import React from "react";
 import CategoryForm from "../../_components/category-form";
 import Link from "next/link";
 import { Button } from "@/app/admin/_components/ui/button";
+import { HttpClient } from "@/lib/http-client";
+import { AppResponseWithData, CategoryDTOType } from "@/types";
 
-export default function UpdateCategoryPage() {
-  const category = {
-    id: "C001",
-    name: "Category 1",
-    description: "This is category 1.",
-  };
+const httpClient = new HttpClient();
+export default async function UpdateCategoryPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  console.log(params)
+  const data = await httpClient.get<AppResponseWithData<CategoryDTOType>>(`/categories/${params.id}`);
 
   return (
     <div>
@@ -20,7 +24,7 @@ export default function UpdateCategoryPage() {
           <Link href="/admin/categories"> Go Back</Link>
         </Button>
       </PageHeader>
-      <CategoryForm category={category} />
+      <CategoryForm category={data.data} />
     </div>
   );
 }

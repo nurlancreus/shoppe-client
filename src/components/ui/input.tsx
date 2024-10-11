@@ -13,7 +13,7 @@ type InputProps = {
   rows?: number;
   className?: string;
   formControllClassName?: string;
-  error?: string;
+  error?: string | string[] | null;
 };
 
 export default function Input({

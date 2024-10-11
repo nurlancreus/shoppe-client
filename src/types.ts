@@ -125,6 +125,7 @@ export type CategoryDTOType = {
   id: string;
   name: string;
   description?: string | null;
+  type: "Blog" | "Product"
 };
 
 export type AppResponse = {

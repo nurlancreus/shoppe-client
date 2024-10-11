@@ -43,6 +43,10 @@ import CategoryActions from "./category-actions";
 // Define the columns for the category table
 const columns: ColumnDef<CategoryDTOType>[] = [
   {
+    accessorKey: "type",
+    header: () => <div>Category Type</div>,
+  },
+  {
     accessorKey: "name",
     header: () => <div>Category Name</div>,
   },

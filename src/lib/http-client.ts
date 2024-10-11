@@ -34,6 +34,7 @@ export class HttpClient {
 
     // HTTP GET method
     public get<T>(url: string, options?: RequestInit): Promise<T> {
+        console.log(`${this.baseUrl}${url}`, "BASEEEEE")
         return this.request<T>(url, 'GET', undefined, options);
     }
 

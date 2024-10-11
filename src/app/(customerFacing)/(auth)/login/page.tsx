@@ -7,7 +7,18 @@ import Link from "next/link";
 import { useFormState } from "react-dom";
 
 export default function LoginPage() {
-  const [errors, action] = useFormState(loginAction, {});
+  const [state, action] = useFormState(loginAction, {
+    errors: {
+      validation: {},
+      auth: undefined,
+      server: undefined,
+    },
+  });
+
+  const hasWrongCredentialsError =
+    state?.errors?.auth?.general ||
+    state?.errors?.validation?.email ||
+    state?.errors?.validation?.password;
 
   return (
     <form id="login-form" name="login-form" action={action}>
@@ -17,20 +28,23 @@ export default function LoginPage() {
         id="email"
         placeholder="Email"
         value="string@example.com"
-        error={errors?.email?.[0]}
+        error={null}
         className="pb-3 text-h5-desktop text-dark-gray"
         formControllClassName="mb-11"
       />
+
+      {/* Password Input */}
       <Input
         type="password"
         name="password"
         id="password"
         placeholder="Password"
         value="string"
-        error={errors?.password?.[0]}
+        error={null}
         className="pb-3 text-h5-desktop text-dark-gray"
         formControllClassName="mb-11"
       />
+
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
@@ -42,6 +56,19 @@ export default function LoginPage() {
       </div>
 
       <SubmitButton className="mt-16 w-full uppercase">Sign in</SubmitButton>
+
+      {hasWrongCredentialsError && (
+        <p className="mt-4 text-red-600">
+          Wrong credentials. Please try again.
+        </p>
+      )}
+
+      {state?.errors?.server?.general && (
+        <p className="mt-4 text-red-600">
+          Server error. Please try again later.
+        </p>
+      )}
+
       <Link
         href="/forgot-password"
         className="mt-3 block text-center text-h5-desktop"

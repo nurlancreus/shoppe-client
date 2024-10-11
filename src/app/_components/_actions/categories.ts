@@ -1,38 +1,16 @@
 "use server";
 
-import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-const addCategorySchema = z.object({
-  name: z.string().min(1, { message: "Category name is required." }),
-  description: z.string().min(1, { message: "Description is required." }),
-});
+export async function addCategoryAction(formData: FormData) {
+  const data = {
+    name: formData.get("name")?.toString() || "",
+    description: formData.get("description")?.toString() || "",
+    type: formData.get("type")?.toString() || "",
+  };
 
-const updateCategorySchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: "Category name must be at least 1 character." })
-    .optional(),
-  description: z
-    .string()
-    .min(1, { message: "Description must be at least 1 character." })
-    .optional(),
-});
-
-export async function addCategoryAction(
-  prevState: unknown,
-  formData: FormData,
-) {
-  const result = addCategorySchema.safeParse(
-    Object.fromEntries(formData.entries()),
-  );
-
-  if (!result.success) {
-    return result.error.formErrors.fieldErrors;
-  }
-
-  const data = result.data;
-
+  console.log(formData, data);
   try {
     const response = await fetch(`${process.env.BASE_API_URL}/categories`, {
       method: "POST",
@@ -42,41 +20,34 @@ export async function addCategoryAction(
 
     if (!response.ok) {
       const error = await response.json();
-      console.log(error);
-      throw new Error("Category creation failed");
+      console.error("Error:", error); // Changed to console.error for error logging
+      throw new Error(error.message || "Category creation failed");
     }
 
     const responseData = await response.json();
     console.log("Category created:", responseData);
-  } catch (error) {
-    console.log(error);
-  }
 
-  revalidatePath("/categories");
+    // Revalidate and redirect after successful creation
+    revalidatePath("/categories");
+    redirect("/categories");
+  } catch (error) {
+    console.error("Error during category creation:", error);
+  }
 }
 
 // Update category action
-export async function updateCategoryAction(
-  id: string,
-  prevState: unknown,
-  formData: FormData,
-) {
-  const result = updateCategorySchema.safeParse(
-    Object.fromEntries(formData.entries()),
-  );
-
-  if (!result.success) {
-    console.log(result.error.formErrors.fieldErrors);
-    return result.error.formErrors.fieldErrors;
-  }
-
-  const data = result.data;
-
+export async function updateCategoryAction(id: string, formData: FormData) {
+  const data = {
+    name: formData.get("name")?.toString() || "",
+    description: formData.get("description")?.toString() || "",
+    type: formData.get("type")?.toString() || "",
+  };
+console.log(data, "UPDATEEE")
   try {
     const response = await fetch(
       `${process.env.BASE_API_URL}/categories/${id}`,
       {
-        method: "PATCH",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       },

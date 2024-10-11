@@ -2,11 +2,18 @@
 import Input from "@/components/ui/input";
 import Link from "next/link";
 import { useFormState } from "react-dom";
-import { registerAction } from "../../_components/_actions/auth";
 import SubmitButton from "@/components/ui/submit-button";
+import { registerAction } from "@/app/_components/_actions/auth";
+
 
 export default function RegisterPage() {
-  const [errors, action] = useFormState(registerAction, {});
+  const [state, action] = useFormState(registerAction, {
+    errors: {
+      validation: {
+        
+      }
+    }
+  });
 
   return (
     <form id="register-form" name="register-form" action={action}>
@@ -17,7 +24,7 @@ export default function RegisterPage() {
         placeholder="First Name"
         className="text-h5-desktop text-dark-gray"
         formControllClassName="mb-6"
-        error={errors?.firstName?.[0]} // Display error if present
+        error={state?.errors?.validation?.firstName} // Display error if present
       />
       <Input
         type="text"
@@ -26,7 +33,7 @@ export default function RegisterPage() {
         placeholder="Last Name"
         className="text-h5-desktop text-dark-gray"
         formControllClassName="mb-6"
-        error={errors?.lastName?.[0]} // Display error if present
+        error={state?.errors?.validation?.lastName} // Display error if present
       />
       <Input
         type="email"
@@ -35,7 +42,7 @@ export default function RegisterPage() {
         placeholder="Email"
         className="text-h5-desktop text-dark-gray"
         formControllClassName="mb-6"
-        error={errors?.email?.[0]} // Display error if present
+        error={state?.errors?.validation?.email} // Display error if present
       />
       <Input
         type="text"
@@ -44,7 +51,7 @@ export default function RegisterPage() {
         placeholder="Username"
         className="text-h5-desktop text-dark-gray"
         formControllClassName="mb-6"
-        error={errors?.userName?.[0]} // Display error if present
+        error={state?.errors?.validation?.userName} // Display error if present
       />
       <Input
         type="password"
@@ -53,7 +60,7 @@ export default function RegisterPage() {
         placeholder="Password"
         className="text-h5-desktop text-dark-gray"
         formControllClassName="mb-6"
-        error={errors?.password?.[0]} // Display error if present
+        error={state?.errors?.validation?.password} // Display error if present
       />
       <Input
         type="password"
@@ -62,7 +69,7 @@ export default function RegisterPage() {
         placeholder="Confirm Password"
         className="text-h5-desktop text-dark-gray"
         formControllClassName="mb-6"
-        error={errors?.confirmPassword?.[0]} // Display error if present
+        error={state?.errors?.validation?.confirmPassword} // Display error if present
       />
       <SubmitButton className="mt-8 w-full uppercase">Register</SubmitButton>
       <Link href="/login" className="mt-4 block text-center text-h5-desktop">

@@ -8,6 +8,8 @@ import { HttpClient } from "@/lib/http-client";
 
 const httpClient = new HttpClient(process.env.BASE_API_URL!);
 
+export const revalidate = 0;
+
 export default async function CategoriesPage() {
   // Fetch categories data using HttpClient
   const data =
