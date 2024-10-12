@@ -99,7 +99,7 @@ export type ProductDTOType = {
   weight: number;
   height: number;
   width: number;
-  material: string;
+  materials: string[];
   colors: string[];
   categories: { id: string; name: string }[];
   productImages: ProductImageDTOType[];
@@ -115,7 +115,7 @@ export type CreateProductDTOType = {
   weight: number;
   height: number;
   width: number;
-  material: string;
+  materials: string[];
   colors: string[];
   categoryIds: string[];
   productImages: File[]; // Handling file uploads with FormData

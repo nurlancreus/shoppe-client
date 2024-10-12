@@ -2,7 +2,7 @@
 export class HttpClient {
     private baseUrl: string;
 
-    constructor(baseUrl: string = process.env.BASE_API_URL || '') {
+    constructor(baseUrl: string = process.env.NEXT_PUBLIC_BASE_API_URL || '') {
         this.baseUrl = baseUrl;
     }
 

@@ -45,6 +45,17 @@ export function formatDate(date: Date | string): string {
 }
 
 
+export const generateImageUrl = (imagePath: string, fileName: string): string => {
+  const bucketName = process.env.NEXT_PUBLIC_S3_BUCKET_NAME;
+  const region = process.env.NEXT_PUBLIC_S3_REGION;
+
+  if (!bucketName || !region) {
+    throw new Error("Missing S3 bucket or region information in environment variables.");
+  }
+
+  return `https://${bucketName}.s3.${region}.amazonaws.com/${imagePath}/${fileName}`;
+};
+
 type FetchOptions = {
   method?: string;
   body?: unknown;

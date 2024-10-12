@@ -18,44 +18,25 @@ import Image from "next/image";
 import ProductActions from "./product-actions"; // Correct import for ProductActions
 import { Button } from "../../_components/ui/button";
 import { Input } from "../../_components/ui/input";
-import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "../../_components/ui/table";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../../_components/ui/dropdown-menu";
-import { ProductImageDTOType } from "@/types";
-
-// Sample product data
-const products = [
-  {
-    id: "P001",
-    name: "Product 1",
-    description: "Description of Product 1",
-    price: 250.0,
-    stock: 10,
-    weight: 1.5,
-    height: 10.0,
-    width: 5.0,
-    material: "Plastic",
-    colors: ["Red", "Blue"],
-    categories: [{ id: "C001", name: "Category 1" }],
-    productImages: [
-      {
-        fileName: "product1-main.jpg",
-        pathName: "https://via.placeholder.com/600x400?text=Main+Image",
-        isMain: true,
-      },
-      {
-        fileName: "product1-secondary.jpg",
-        pathName: "/img2.jpg",
-        isMain: false,
-      },
-    ],
-    rating: 4.5,
-    createdAt: new Date(),
-  },
-  // Add more products as needed
-];
+import {
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+  Table,
+} from "../../_components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../../_components/ui/dropdown-menu";
+import { ProductDTOType, ProductImageDTOType } from "@/types";
+import { generateImageUrl } from "@/utils/client-utils";
 
 // Define the columns for the product table
-const columns: ColumnDef<typeof products[number]>[] = [
+const columns: ColumnDef<ProductDTOType>[] = [
   {
     accessorKey: "name",
     header: () => <div>Product Name</div>,
@@ -93,8 +74,9 @@ const columns: ColumnDef<typeof products[number]>[] = [
     cell: ({ row }) => `${row.getValue("width")} cm`,
   },
   {
-    accessorKey: "material",
+    accessorKey: "materials",
     header: "Material",
+    cell: ({row}) => `${(row.getValue("materials") as string[]).join(", ")}`
   },
   {
     accessorKey: "rating",
@@ -105,10 +87,12 @@ const columns: ColumnDef<typeof products[number]>[] = [
     accessorKey: "productImages",
     header: "Main Image",
     cell: ({ row }) => {
-      const mainImage = (row.getValue("productImages") as ProductImageDTOType[]).find((img) => img.isMain);
+      const mainImage = (
+        row.getValue("productImages") as ProductImageDTOType[]
+      ).find((img) => img.isMain);
       return mainImage ? (
         <Image
-          src={mainImage.pathName}
+          src={generateImageUrl(mainImage.pathName, mainImage.fileName)}
           alt={mainImage.fileName}
           width={50}
           height={50}
@@ -125,10 +109,17 @@ const columns: ColumnDef<typeof products[number]>[] = [
   },
 ];
 
-export default function ProductTable() {
+export default function ProductTable({
+  products,
+}: {
+  products: ProductDTOType[];
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -199,7 +190,7 @@ export default function ProductTable() {
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
                 ))}
@@ -215,14 +206,20 @@ export default function ProductTable() {
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "./button";
+import Spinner from "@/components/ui/spinner";
 
 interface ModalProps {
   title: string;
@@ -10,6 +11,7 @@ interface ModalProps {
   onClose: () => void;
   onConfirm: () => void;
   isDestructive?: boolean;
+  isLoading?: boolean;
 }
 
 export default function Modal({
@@ -21,8 +23,9 @@ export default function Modal({
   onClose,
   onConfirm,
   isDestructive = false,
+  isLoading = false, 
 }: ModalProps) {
-  if (!isOpen) return null; // Don't render if modal is closed
+  if (!isOpen) return null; 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -34,14 +37,17 @@ export default function Modal({
             variant="secondary"
             className="mr-2"
             onClick={onClose}
+            disabled={isLoading} 
           >
             {cancelText}
           </Button>
           <Button
             variant={isDestructive ? "destructive" : "default"}
             onClick={onConfirm}
+            disabled={isLoading} 
+            className="flex items-center gap-1"
           >
-            {confirmText}
+           {isLoading && <Spinner color="light"/>} {confirmText}
           </Button>
         </div>
       </div>

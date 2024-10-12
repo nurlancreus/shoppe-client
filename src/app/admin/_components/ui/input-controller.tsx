@@ -8,10 +8,10 @@ type InputControllerProps = {
   id: string;
   name: string;
   label: string;
-  defaultValue?: string | null;
+  defaultValue?: string | number | null;
   error?: string;
   className?: string;
-  type?: "textarea" | "input";
+  type?: "textarea" | "text" | "number";
 };
 
 export default function InputController({
@@ -21,7 +21,7 @@ export default function InputController({
   defaultValue = "",
   error,
   className,
-  type = "input",
+  type = "text",
 }: InputControllerProps) {
   const { register } = useFormContext();
 
@@ -37,11 +37,11 @@ export default function InputController({
         />
       ) : (
         <Input
-          type="text"
+          type={type} 
           id={id}
           defaultValue={defaultValue ?? ""}
           className="w-full"
-          {...register(name)}
+          {...register(name, { valueAsNumber: type === "number" })} 
         />
       )}
       {error && <div className="text-destructive">{error}</div>}

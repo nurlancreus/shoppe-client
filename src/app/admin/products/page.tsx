@@ -6,9 +6,17 @@ import ProductTable from "./_components/product-table";
 import { Button } from "../_components/ui/button";
 import Link from "next/link";
 import PageHeader from "../_components/layout/page-header";
-// import { ProductDTO } from "../types/ProductDTO";
+import { HttpClient } from "@/lib/http-client";
+import { PaginatedResponse, ProductDTOType } from "@/types";
 
-export default function ProductsPage() {
+const httpClient = new HttpClient();
+
+export default async function ProductsPage() {
+  const data =
+  await httpClient.get<PaginatedResponse<ProductDTOType>>("/products");
+
+console.log(data, "HOHOHOHO");
+
   return (
     <div>
       <PageHeader>
@@ -22,7 +30,7 @@ export default function ProductsPage() {
         </Button>
       </PageHeader>
       <div>
-        <ProductTable />
+        <ProductTable products={data.data}/>
       </div>
     </div>
   );

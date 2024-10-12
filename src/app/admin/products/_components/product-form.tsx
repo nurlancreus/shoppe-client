@@ -1,253 +1,292 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState } from "react";
-import { Button } from "../../_components/ui/button";
-import { Label } from "../../_components/ui/label";
-import { Input } from "../../_components/ui/input";
-import Image from "next/image";
-import { useFormState } from "react-dom";
-import { ProductDTOType } from "@/types";
+import React, { useEffect, useState } from "react";
+import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addProductAction,
   updateProductAction,
 } from "@/app/_components/_actions/products";
-
-// Import shadcn Dropdown components
+import { CategoryDTOType, ProductDTOType } from "@/types";
+import InputController from "../../_components/ui/input-controller";
+import { MultiSelectDropdown } from "../../_components/ui/multi-select-dropdown";
+import { Button } from "../../_components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../_components/ui/dropdown-menu";
-import { Textarea } from "../../_components/ui/textarea";
-import SubmitButton from "../../_components/ui/submit-btn";
-
-// Mock data for categories
-const mockCategories = [
-  { id: "C001", name: "Electronics" },
-  { id: "C002", name: "Furniture" },
-  { id: "C003", name: "Clothing" },
-];
-
-const colorOptions = ["Red", "Blue", "Green", "Yellow", "Black", "White"];
+  AddProductSchema,
+  addProductSchema,
+  UpdateProductSchema,
+  updateProductSchema,
+} from "./product-schema";
+import Image from "next/image";
 
 type ProductFormProps = {
+  categories?: CategoryDTOType[];
+  colors?: string[];
+  materials?: string[];
   product?: ProductDTOType | null;
 };
 
-export default function ProductForm({ product = null }: ProductFormProps) {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    product?.categories.map((category) => category.id) || [],
-  );
+type ProductSchema = AddProductSchema | UpdateProductSchema;
 
+export default function ProductForm({
+  categories = [],
+  colors = [],
+  materials = [],
+  product = null,
+}: ProductFormProps) {
+  const form = useForm<ProductSchema>({
+    resolver: zodResolver(product ? updateProductSchema : addProductSchema),
+    defaultValues: {
+      name: product?.name ?? "",
+      description: product?.description ?? "",
+      price: product?.price ?? 0,
+      stock: product?.stock ?? 0,
+      weight: product?.weight ?? 0,
+      height: product?.height ?? 0,
+      width: product?.width ?? 0,
+      materials: product?.materials ?? [],
+      colors: product?.colors ?? [],
+      categoryIds: product?.categories.map((cat) => cat.id) ?? [],
+      productImages: [],
+    },
+  });
+
+  const {
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+    getValues,
+    register,
+  } = form;
+
+  // State for categoryIds and colors
+  const [categoryIds, setCategoryIds] = useState<string[]>(
+    product?.categories.map((cat) => cat.id) ?? [],
+  );
   const [selectedColors, setSelectedColors] = useState<string[]>(
-    product?.colors || [],
+    product?.colors ?? [],
+  );
+  const [selectedMaterials, setSelectedMaterials] = useState<string[]>(
+    product?.materials ?? [],
   );
 
-  const [error, action] = useFormState(
-    product
-      ? updateProductAction.bind(
-          null,
-          product.id,
-          selectedCategories,
-          selectedColors,
-        )
-      : addProductAction.bind(null, selectedCategories, selectedColors),
-    {},
-  );
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const validFiles = Array.from(files).filter(file => {
+        // const isImage = file.type.startsWith('image/');
+        // const isSizeValid = file.size <= 5 * 1024 * 1024; // 5 MB limit
+        // return isImage && isSizeValid;
 
-  let mainImage = null;
-  if (product != null) {
-    mainImage = product.productImages.find((image) => image.isMain);
-  }
+        return file;
+      });
+  
+      setValue("productImages", validFiles);
+    }
+   // event.target.value = ''; 
+  };
+  
+
+  const onSubmitForm: SubmitHandler<ProductSchema> = async (data) => {
+    const formData = new FormData();
+    console.log(data);
+    // Append all data to FormData
+    Object.keys(data).forEach((key) => {
+      if (key !== "productImages") {
+        formData.append(key, data[key as keyof ProductSchema] as any);
+      }
+    });
+
+    // Append product images to FormData
+    const productImages = getValues("productImages");
+    if (productImages && productImages.length > 0) {
+      Array.from(productImages).forEach((file: File) => {
+        formData.append("productImages", file);
+      });
+    }
+
+    selectedColors.forEach((color) => {
+      formData.append("colors", color);
+    });
+
+    categoryIds.forEach((id) => {
+      formData.append("categoryIds", id);
+    });
+
+    if (!product) {
+      await addProductAction(formData);
+    } else {
+      await updateProductAction(product.id, formData);
+    }
+  };
 
   const handleCategoryChange = (id: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
-    );
+    setCategoryIds((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((catId) => catId !== id);
+      } else {
+        return [...prev, id];
+      }
+    });
   };
 
   const handleColorChange = (color: string) => {
-    setSelectedColors((prev) =>
-      prev.includes(color)
-        ? prev.filter((item) => item !== color)
-        : [...prev, color],
-    );
+    setSelectedColors((prev) => {
+      if (prev.includes(color)) {
+        return prev.filter((c) => c !== color);
+      } else {
+        return [...prev, color];
+      }
+    });
   };
 
+  const handleMaterialChange = (material: string) => {
+    setSelectedMaterials((prev) => {
+      if (prev.includes(material)) {
+        return prev.filter((c) => c !== material);
+      } else {
+        return [...prev, material];
+      }
+    });
+  };
+
+  // Sync states with react-hook-form values
+  useEffect(() => {
+    setValue("categoryIds", categoryIds);
+  }, [categoryIds, setValue]);
+
+  useEffect(() => {
+    setValue("colors", selectedColors);
+  }, [selectedColors, setValue]);
+
+  useEffect(() => {
+    setValue("materials", selectedMaterials);
+  }, [selectedMaterials, setValue]);
+
+  const mainImage = product?.productImages.find((image) => image.isMain);
+
   return (
-    <form action={action} className="space-y-8">
-      <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
-        <Input
-          type="text"
+    <FormProvider {...form}>
+      <form className="space-y-8" onSubmit={handleSubmit(onSubmitForm)}>
+        <InputController
           id="name"
           name="name"
-          defaultValue={product?.name ?? ""}
-          className="w-full"
+          label="Product Name"
+          error={errors.name?.message}
         />
-        <div className="text-destructive">{error?.name?.[0]}</div>
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="price">Price</Label>
-        <Input type="number" id="price" name="price" className="w-full" />
-        <div className="text-destructive">{error?.price?.[0]}</div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
-        <Textarea
+        <InputController
           id="description"
           name="description"
-          defaultValue={product?.description ?? ""}
-          className="h-24 w-full rounded border p-2"
+          label="Description"
+          type="textarea"
+          error={errors.description?.message}
         />
-        <div className="text-destructive">{error?.description?.[0]}</div>
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="stock">Stock</Label>
-        <Input
+        <InputController
+          id="price"
+          name="price"
+          label="Price"
           type="number"
+          error={errors.price?.message}
+        />
+
+        <InputController
           id="stock"
           name="stock"
-          defaultValue={product?.stock ?? 0}
-          className="w-full"
-        />
-        <div className="text-destructive">{error?.stock?.[0]}</div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="weight">Weight (kg)</Label>
-        <Input
+          label="Stock"
           type="number"
+          error={errors.stock?.message}
+        />
+
+        <InputController
           id="weight"
           name="weight"
-          defaultValue={product?.weight ?? 0}
-          className="w-full"
-        />
-        <div className="text-destructive">{error?.weight?.[0]}</div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="height">Height (cm)</Label>
-        <Input
+          label="Weight (kg)"
           type="number"
+          error={errors.weight?.message}
+        />
+
+        <InputController
           id="height"
           name="height"
-          defaultValue={product?.height ?? 0}
-          className="w-full"
-        />
-        <div className="text-destructive">{error?.height?.[0]}</div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="width">Width (cm)</Label>
-        <Input
+          label="Height (cm)"
           type="number"
+          error={errors.height?.message}
+        />
+
+        <InputController
           id="width"
           name="width"
-          defaultValue={product?.width ?? 0}
-          className="w-full"
+          label="Width (cm)"
+          type="number"
+          error={errors.width?.message}
         />
-        <div className="text-destructive">{error?.width?.[0]}</div>
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="material">Material</Label>
-        <Input
-          type="text"
-          id="material"
-          name="material"
-          defaultValue={product?.material ?? ""}
-          className="w-full"
+        <MultiSelectDropdown
+          options={categories?.map((cat) => cat.name) ?? []}
+          selectedValues={categoryIds}
+          onChange={(id) => handleCategoryChange(id)}
+          label="Categories"
+          error={errors.categoryIds?.message}
         />
-        <div className="text-destructive">{error?.material?.[0]}</div>
-      </div>
 
-      {/* Dropdown Menu for Colors */}
-      <div className="w-1/4 space-y-2">
-        <Label htmlFor="colors">Colors (select multiple)</Label>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-full">
-              Select Colors
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Select Colors</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {colorOptions.map((color) => (
-              <DropdownMenuCheckboxItem
-                key={color}
-                checked={selectedColors.includes(color)}
-                onCheckedChange={() => handleColorChange(color)}
-              >
-                {color}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <div className="text-destructive">{error?.colors?.[0]}</div>
-      </div>
-
-      {/* Dropdown Menu for Category IDs */}
-      <div className="w-1/4 space-y-2">
-        <Label htmlFor="categoryIds">Category IDs (select multiple)</Label>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-full">
-              Select Categories
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Select Categories</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {mockCategories.map((category) => (
-              <DropdownMenuCheckboxItem
-                key={category.id}
-                checked={selectedCategories.includes(category.id)}
-                onCheckedChange={() => handleCategoryChange(category.id)}
-              >
-                {category.name}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <div className="text-destructive">{error?.categoryIds?.[0]}</div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="productImages">Product Images</Label>
-        <Input
-          type="file"
-          id="productImages"
-          name="productImages"
-          accept="image/*"
-          multiple
-          className="w-full"
-          required={product === null}
+        <MultiSelectDropdown
+          options={colors}
+          selectedValues={selectedColors}
+          onChange={(color) => handleColorChange(color)}
+          label="Colors"
+          error={errors.colors?.message}
         />
-        {mainImage != null && (
-          <div className="relative h-40 w-60">
-            <Image
-              src={mainImage.pathName}
-              fill
-              alt="Product image"
-              style={{ objectFit: "cover" }}
-            />
-          </div>
-        )}
 
-        <div className="text-destructive">{error?.productImages?.[0]}</div>
-      </div>
+        <MultiSelectDropdown
+          options={materials}
+          selectedValues={selectedMaterials}
+          onChange={(material) => handleMaterialChange(material)}
+          label="Materials"
+          error={errors.materials?.message}
+        />
 
-      <SubmitButton pendingCase={product ? "Updating..." : "Saving..."}>
-        {product ? "Update" : "Save"}
-      </SubmitButton>
-    </form>
+        {/* Product Image Upload */}
+        <div className="space-y-2">
+          <label htmlFor="productImages" className="block">
+            Product Images
+          </label>
+          <input
+            type="file"
+            id="productImages"
+            multiple
+            accept="image/*"
+            {...register("productImages")}
+            className="w-full border p-2"
+            onChange={handleFileChange}
+          />
+          {errors.productImages && (
+            <div className="text-destructive">
+              {errors.productImages.message}
+            </div>
+          )}
+
+          {mainImage && (
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Main Image</h3>
+              <div className="relative h-40 w-60">
+                <Image
+                  src={mainImage.pathName}
+                  fill
+                  alt={mainImage.fileName}
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        <Button disabled={isSubmitting}>
+          {isSubmitting ? "Saving..." : "Save"}
+        </Button>
+      </form>
+    </FormProvider>
   );
 }

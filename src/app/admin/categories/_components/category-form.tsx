@@ -85,7 +85,7 @@ export default function CategoryForm({ category = null }: CategoryFormProps) {
             onValueChange={(value) =>
               setValue("type", value as "Product" | "Blog")
             }
-            defaultValue={category?.type ?? "product"}
+            defaultValue={category?.type ?? "Product"}
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select Type" />

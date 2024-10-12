@@ -67,3 +67,28 @@ console.log(data, "UPDATEEE")
 
   revalidatePath("/categories");
 }
+
+export async function deleteCategoryAction(id: string) {
+  try {
+    const response = await fetch(`${process.env.BASE_API_URL}/categories/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error("Error:", error); // Changed to console.error for error logging
+      throw new Error(error.message || "Category deletion failed");
+    }
+
+    const responseData = await response.json();
+    console.log("Category removed:", responseData);
+
+    // Revalidate and redirect after successful creation
+    revalidatePath("/categories");
+    redirect("/categories");
+  } catch (error) {
+    console.error("Error during category creation:", error);
+  }
+  
+}

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { CategoryDTOType, PaginatedResponse } from "@/types";
 import { HttpClient } from "@/lib/http-client";
 
-const httpClient = new HttpClient(process.env.BASE_API_URL!);
+const httpClient = new HttpClient();
 
 export const revalidate = 0;
 

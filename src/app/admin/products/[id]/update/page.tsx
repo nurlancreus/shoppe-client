@@ -4,40 +4,30 @@ import ProductForm from "../../_components/product-form";
 import PageHeader from "@/app/admin/_components/layout/page-header";
 import { Button } from "@/app/admin/_components/ui/button";
 import Link from "next/link";
-import { ProductDTOType } from "@/types";
+import {
+  AppResponseWithData,
+  CategoryDTOType,
+  PaginatedResponse,
+  ProductDTOType,
+} from "@/types";
+import { HttpClient } from "@/lib/http-client";
 
-export default function UpdateProductPage({
+const httpClient = new HttpClient();
+
+export default async function UpdateProductPage({
   params: { id },
 }: {
   params: { id: string };
 }) {
-  const product = {
-    id: "P001",
-    name: "Product 1",
-    description: "Description of Product 1",
-    price: 250.0,
-    stock: 10,
-    weight: 1.5,
-    height: 10.0,
-    width: 5.0,
-    material: "Plastic",
-    colors: ["Red", "Blue"],
-    categories: [{ id: "C001", name: "Category 1" }],
-    productImages: [
-      {
-        fileName: "product1-main.jpg",
-        pathName: "https://via.placeholder.com/600x400?text=Main+Image",
-        isMain: true,
-      },
-      {
-        fileName: "product1-secondary.jpg",
-        pathName: "/img2.jpg",
-        isMain: false,
-      },
-    ],
-    rating: 4.5,
-    createdAt: new Date(),
-  } as ProductDTOType;
+  const result = await httpClient.get<AppResponseWithData<ProductDTOType>>(
+    `/products/${id}`,
+  );
+
+  const categoryResult = await httpClient.get<
+    PaginatedResponse<CategoryDTOType>
+  >("/categories?type=product");
+  const colors = await httpClient.get<string[]>("/products/colors");
+  const materials = await httpClient.get<string[]>("/products/materials");
 
   return (
     <div>
@@ -47,7 +37,12 @@ export default function UpdateProductPage({
           <Link href="/admin/products"> Go Back</Link>
         </Button>
       </PageHeader>
-      <ProductForm product={product} />
+      <ProductForm
+        product={result.data}
+        categories={categoryResult.data}
+        colors={colors}
+        materials={materials}
+      />
     </div>
   );
 }
