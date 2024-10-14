@@ -12,6 +12,7 @@ const httpClient = new HttpClient();
 export default async function AddProductPage() {
   const result = await httpClient.get<PaginatedResponse<CategoryDTOType>>(
     "/categories?type=product",
+    { cache: "no-store" },
   );
   const colors = await httpClient.get<string[]>("/products/colors");
   const materials = await httpClient.get<string[]>("/products/materials");

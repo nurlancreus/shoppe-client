@@ -75,7 +75,7 @@ const columns: ColumnDef<ProductDTOType>[] = [
   },
   {
     accessorKey: "materials",
-    header: "Material",
+    header: "Materials",
     cell: ({row}) => `${(row.getValue("materials") as string[]).join(", ")}`
   },
   {
@@ -121,6 +121,7 @@ export default function ProductTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+
 
   const table = useReactTable({
     data: products,

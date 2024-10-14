@@ -7,14 +7,18 @@ import { Button } from "@/app/admin/_components/ui/button";
 import { HttpClient } from "@/lib/http-client";
 import { AppResponseWithData, CategoryDTOType } from "@/types";
 
+export const revalidate = 0;
+
 const httpClient = new HttpClient();
 export default async function UpdateCategoryPage({
   params,
 }: {
   params: { id: string };
 }) {
-  console.log(params)
-  const data = await httpClient.get<AppResponseWithData<CategoryDTOType>>(`/categories/${params.id}`);
+  const data = await httpClient.get<AppResponseWithData<CategoryDTOType>>(
+    `/categories/${params.id}`
+  );
+  console.log(params, data);
 
   return (
     <div>

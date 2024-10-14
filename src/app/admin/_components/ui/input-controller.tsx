@@ -32,7 +32,7 @@ export default function InputController({
         <Textarea
           id={id}
           defaultValue={defaultValue ?? ""}
-          className="h-24 w-full rounded border p-2"
+          className="h-24 w-full rounded border p-2 resize-none"
           {...register(name)}
         />
       ) : (

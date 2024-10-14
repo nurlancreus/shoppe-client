@@ -1,95 +1,163 @@
 "use server";
 
+import { convertValidationErrors } from "@/lib/error-converter";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-
-export async function addProductAction(
-
-  formData: FormData,
-) {
- // const productImages = formData.getAll("productImages"); // Get all files
-  //console.log(productImages, categoryIds, colors);
-  // const result = addSchema.safeParse({
-  //   ...Object.fromEntries(formData.entries()),
-  //   productImages, // Attach the array of files
-  //   categoryIds, // Attach selected categories
-  //   colors, // Attach selected colors
-  // });
-
+export async function addProductAction(formData: FormData) {
   console.log(formData, "FORMDATA FROM ADD PRODUCT");
 
-
-
-  const data = {
-    
-  };
-  
-  console.log("Formatted data:", data);
-
   try {
+    // Create a new FormData to handle the structure manually
+    const requestData = new FormData();
+
+    // Append all fields manually to ensure correct format
+    requestData.append("Name", formData.get("name") + "");
+    requestData.append("Description", formData.get("description") + "");
+    requestData.append("Price", formData.get("price") + "");
+    requestData.append("Stock", formData.get("stock") + "");
+    requestData.append("Weight", formData.get("weight") + "");
+    requestData.append("Height", formData.get("height") + "");
+    requestData.append("Width", formData.get("width") + "");
+
+    // Append arrays like materials and colors
+    const materials = formData.getAll("materials") as string[];
+    materials.forEach((material) => requestData.append("Materials", material));
+
+    const colors = formData.getAll("colors") as string[];
+    colors.forEach((color) => requestData.append("Colors", color));
+
+    const categories = formData.getAll("categories") as string[];
+    categories.forEach((categoryName) =>
+      requestData.append("Categories", categoryName),
+    );
+
+    // Append each file from the productImages array
+    const productImages = formData.getAll("productImages") as File[];
+    productImages.forEach((file) =>
+      requestData.append("ProductImages", file, file.name),
+    );
+
+    // Send the FormData as multipart/form-data
     const response = await fetch(`${process.env.BASE_API_URL}/products`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: requestData, // FormData automatically sets Content-Type to multipart/form-data
+      credentials: "include",
     });
 
     if (!response.ok) {
       const error = await response.json();
-      console.log(error);
-      throw new Error("Product creation failed", error);
+
+      console.log(convertValidationErrors(error));
+      throw new Error("Product creation failed");
     }
 
     const responseData = await response.json();
     console.log("Product created:", responseData);
   } catch (error) {
     console.log(error);
-    throw error
+    throw error;
   }
 
-  revalidatePath("/"); // Revalidate cache for homepage
-  revalidatePath("/products"); // Revalidate cache for products page
+  revalidatePath("/");
+  revalidatePath("/products");
+  redirect("/products");
 }
 
-export async function updateProductAction(
-  id: string,
-  formData: FormData,
-) {
-  //const productImages = formData.getAll("productImages"); // Get all files
-  // const result = updateSchema.safeParse({
-  //   ...Object.fromEntries(formData.entries()),
-  //   productImages, // Attach the array of files
-  //   categoryIds, // Attach selected categories
-  //   colors, // Attach selected colors
-  // });
-
-  // if (!result.success) {
-  //   console.log(result.error.formErrors.fieldErrors);
-  //   return result.error.formErrors.fieldErrors;
-  // }
-
-  const data = {};
-  console.log("Formatted data:", formData);
+export async function updateProductAction(id: string, formData: FormData) {
+  console.log(formData, "FORMDATA FROM UPDATE PRODUCT");
 
   try {
+    // Similar to addProductAction, construct FormData for the update
+    const requestData = new FormData();
+
+    requestData.append("Name", formData.get("name") + "");
+    requestData.append("Description", formData.get("description") + "");
+    requestData.append("Price", formData.get("price") + "");
+    requestData.append("Stock", formData.get("stock") + "");
+    requestData.append("Weight", formData.get("weight") + "");
+    requestData.append("Height", formData.get("height") + "");
+    requestData.append("Width", formData.get("width") + "");
+
+    const materials = formData.getAll("materials") as string[];
+    materials.forEach((material) => requestData.append("Materials", material));
+
+    const colors = formData.getAll("colors") as string[];
+    colors.forEach((color) => requestData.append("Colors", color));
+
+    const categories = formData.getAll("categories") as string[];
+    categories.forEach((categoryName) =>
+      requestData.append("Categories", categoryName),
+    );
+
+    const productImages = formData.getAll("productImages") as File[];
+    productImages.forEach((file) =>
+      requestData.append("ProductImages", file, file.name),
+    );
+
     const response = await fetch(`${process.env.BASE_API_URL}/products/${id}`, {
       method: "PATCH", // PATCH for partial updates
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: requestData, // Send FormData for the update
       credentials: "include",
     });
 
     if (!response.ok) {
       const error = await response.json();
       console.log(error);
-      throw new Error("Product update failed", error);
+      throw new Error("Product update failed");
     }
 
     const responseData = await response.json();
     console.log("Product updated:", responseData);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 
-  revalidatePath("/"); // Revalidate cache for homepage
-  revalidatePath("/products"); // Revalidate cache for products page
+  revalidatePath("/");
+  revalidatePath("/products");
+  revalidatePath(`/products/${id}/update`);
+  redirect("/products");
+}
+
+export async function deleteProductAction(id: string) {
+  try {
+    const response = await fetch(`${process.env.BASE_API_URL}/products/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error("Error:", error);
+      throw new Error(error.message || "Product deletion failed");
+    }
+
+    const responseData = await response.json();
+    console.log("Product removed:", responseData);
+
+    revalidatePath("/products");
+    redirect("/products");
+  } catch (error) {
+    console.error("Error during product deletion:", error);
+  }
+}
+
+export async function changeMainImageAction(productId: string, imageId: string) {
+  const response = await fetch(
+    `${process.env.BASE_API_URL}/products/${productId}/images/${imageId}`,
+    {
+      method: "DELETE",
+    },
+  );
+
+  console.log(`${process.env.BASE_API_URL}/products/${productId}/images/${imageId}`)
+  
+  if (!response.ok) {
+    const error = await response.json();
+    console.error("Error:", error);
+    throw new Error(error.message || "Main image changing failed");
+  }
+
+  const responseData = await response.json();
+  console.log("Main image updated:", responseData);
 }

@@ -85,6 +85,7 @@ export type CartItemType = {
 };
 
 export type ProductImageDTOType = {
+  id: string
   fileName: string;
   pathName: string;
   isMain: boolean;
@@ -107,7 +108,7 @@ export type ProductDTOType = {
   createdAt: Date;
 };
 
-export type CreateProductDTOType = {
+export type NewProductDTOType = {
   name: string;
   description: string;
   price: number;
@@ -117,8 +118,8 @@ export type CreateProductDTOType = {
   width: number;
   materials: string[];
   colors: string[];
-  categoryIds: string[];
-  productImages: File[]; // Handling file uploads with FormData
+  categories: string[];
+  productImages: File[]; 
 };
 
 export type CategoryDTOType = {

@@ -11,11 +11,13 @@ import { PaginatedResponse, ProductDTOType } from "@/types";
 
 const httpClient = new HttpClient();
 
+export const revalidate = 0;
+
 export default async function ProductsPage() {
   const data =
-  await httpClient.get<PaginatedResponse<ProductDTOType>>("/products");
+    await httpClient.get<PaginatedResponse<ProductDTOType>>("/products");
 
-console.log(data, "HOHOHOHO");
+  console.log(data, "HOHOHOHO");
 
   return (
     <div>
@@ -30,7 +32,7 @@ console.log(data, "HOHOHOHO");
         </Button>
       </PageHeader>
       <div>
-        <ProductTable products={data.data}/>
+        <ProductTable products={data.data} />
       </div>
     </div>
   );

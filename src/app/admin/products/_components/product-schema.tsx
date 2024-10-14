@@ -2,10 +2,25 @@ import { z } from "zod";
 
 // Define schema for validating file instances
 const fileSchema = z.instanceof(File, { message: "File is required." });
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const imageSchema = fileSchema.refine(
   (file) => file.size === 0 || file.type.startsWith("image/"),
   { message: "File must be an image or empty." },
 );
+
+// Validate FileList instead of array
+const fileListSchema = z
+  .custom<FileList>((value) => value instanceof FileList, {
+    message: "Invalid file list.",
+  })
+  //.refine((list) => list.length > 0, { message: "At least one file is required." })
+  .refine(
+    (list) =>
+      Array.from(list).every(
+        (file) => file.size === 0 || file.type.startsWith("image/")
+      ),
+    { message: "All files must be images or empty." },
+  );
 
 // Define schema for adding a product with validation rules (all fields required)
 export const addProductSchema = z.object({
@@ -33,16 +48,10 @@ export const addProductSchema = z.object({
   colors: z.array(
     z.string().min(1, { message: "At least one color is required." }),
   ),
-  categoryIds: z.array(
+  categories: z.array(
     z.string().min(1, { message: "At least one category is required." }),
   ),
-  productImages: z
-    .array(
-      imageSchema.refine((file) => file.size > 0, {
-        message: "At least one image is required.",
-      }),
-    )
-    .min(1, { message: "At least one image is required." }), // Ensure at least one image is provided
+  productImages: fileListSchema, // Use FileList schema
 });
 
 // Define schema for updating a product with validation rules (all fields optional)
@@ -82,16 +91,10 @@ export const updateProductSchema = z.object({
   colors: z
     .array(z.string().min(1, { message: "At least one color is required." }))
     .optional(),
-  categoryIds: z
+  categories: z
     .array(z.string().min(1, { message: "At least one category is required." }))
     .optional(),
-  productImages: z
-    .array(
-      imageSchema.refine((file) => file.size > 0 || file.size === 0, {
-        message: "Image must be valid.",
-      }),
-    )
-    .optional(), // Images optional for update
+  productImages: fileListSchema.optional(), // FileList schema for update, optional
 });
 
 export type AddProductSchema = z.infer<typeof addProductSchema>;

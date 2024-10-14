@@ -1,39 +1,36 @@
 "use client";
 
 import { LucideEye, LucideEdit, LucideTrash2, MoreHorizontal } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import Modal from "../../_components/ui/modal";
 import { useRouter } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../../_components/ui/dropdown-menu";
+import { deleteProductAction } from "@/app/_components/_actions/products";
 
 
 export default function ProductActions({ id }: { id: string }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(
-    null
-  );
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const handleView = (id: string) => {
     console.log(`Viewing product with ID: ${id}`);
-    // Logic to view product page
   };
 
   const handleUpdate = (id: string) => {
     console.log(`Updating product with ID: ${id}`);
     router.push(`products/${id}/update`);
-    // Logic to update product
   };
 
-  const handleDelete = (id: string) => {
-    setSelectedProductId(id);
+  const handleDelete = () => {
     setShowDeleteModal(true);
   };
 
   const confirmDelete = () => {
-    console.log(`Deleting product with ID: ${selectedProductId}`);
-    // Logic to delete product
-    setShowDeleteModal(false);
+    startTransition(async () => {
+      await deleteProductAction(id);
+      setShowDeleteModal(false);
+    });
   };
 
   const cancelDelete = () => {
@@ -59,7 +56,7 @@ export default function ProductActions({ id }: { id: string }) {
             <LucideEdit className="mr-2 h-4 w-4 text-yellow-500" />
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleDelete(id)} className="text-red-500">
+          <DropdownMenuItem onClick={handleDelete} className="text-red-500">
             <LucideTrash2 className="mr-2 h-4 w-4" />
             Delete
           </DropdownMenuItem>
@@ -74,6 +71,8 @@ export default function ProductActions({ id }: { id: string }) {
           onClose={cancelDelete}
           onConfirm={confirmDelete}
           isDestructive
+          confirmText={isPending ? "Deleting..." : "Confirm"}
+          isLoading={isPending}
         />
       )}
     </>

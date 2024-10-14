@@ -18,7 +18,7 @@ import {
   UpdateProductSchema,
   updateProductSchema,
 } from "./product-schema";
-import Image from "next/image";
+import ProductImages from "./product-images";
 
 type ProductFormProps = {
   categories?: CategoryDTOType[];
@@ -47,8 +47,8 @@ export default function ProductForm({
       width: product?.width ?? 0,
       materials: product?.materials ?? [],
       colors: product?.colors ?? [],
-      categoryIds: product?.categories.map((cat) => cat.id) ?? [],
-      productImages: [],
+      categories: product?.categories.map((cat) => cat.id) ?? [],
+      productImages: undefined,
     },
   });
 
@@ -60,9 +60,8 @@ export default function ProductForm({
     register,
   } = form;
 
-  // State for categoryIds and colors
-  const [categoryIds, setCategoryIds] = useState<string[]>(
-    product?.categories.map((cat) => cat.id) ?? [],
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    product?.categories.map((cat) => cat.name) ?? [],
   );
   const [selectedColors, setSelectedColors] = useState<string[]>(
     product?.colors ?? [],
@@ -71,29 +70,20 @@ export default function ProductForm({
     product?.materials ?? [],
   );
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      const validFiles = Array.from(files).filter(file => {
-        // const isImage = file.type.startsWith('image/');
-        // const isSizeValid = file.size <= 5 * 1024 * 1024; // 5 MB limit
-        // return isImage && isSizeValid;
+  console.log(product);
 
-        return file;
-      });
-  
-      setValue("productImages", validFiles);
-    }
-   // event.target.value = ''; 
-  };
-  
 
   const onSubmitForm: SubmitHandler<ProductSchema> = async (data) => {
     const formData = new FormData();
-    console.log(data);
+    console.log(data, "THTHTHTHTHHHT");
     // Append all data to FormData
     Object.keys(data).forEach((key) => {
-      if (key !== "productImages") {
+      if (
+        key !== "productImages" &&
+        key !== "categories" &&
+        key !== "materials" &&
+        key !== "colors"
+      ) {
         formData.append(key, data[key as keyof ProductSchema] as any);
       }
     });
@@ -110,9 +100,15 @@ export default function ProductForm({
       formData.append("colors", color);
     });
 
-    categoryIds.forEach((id) => {
-      formData.append("categoryIds", id);
+    selectedCategories.forEach((name) => {
+      formData.append("categories", name);
     });
+
+    selectedMaterials.forEach((material) => {
+      formData.append("materials", material);
+    });
+
+    console.log(formData.entries());
 
     if (!product) {
       await addProductAction(formData);
@@ -121,12 +117,12 @@ export default function ProductForm({
     }
   };
 
-  const handleCategoryChange = (id: string) => {
-    setCategoryIds((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((catId) => catId !== id);
+  const handleCategoryChange = (name: string) => {
+    setSelectedCategories((prev) => {
+      if (prev.includes(name)) {
+        return prev.filter((catName) => catName !== name);
       } else {
-        return [...prev, id];
+        return [...prev, name];
       }
     });
   };
@@ -153,8 +149,8 @@ export default function ProductForm({
 
   // Sync states with react-hook-form values
   useEffect(() => {
-    setValue("categoryIds", categoryIds);
-  }, [categoryIds, setValue]);
+    setValue("categories", selectedCategories);
+  }, [selectedCategories, setValue]);
 
   useEffect(() => {
     setValue("colors", selectedColors);
@@ -164,7 +160,6 @@ export default function ProductForm({
     setValue("materials", selectedMaterials);
   }, [selectedMaterials, setValue]);
 
-  const mainImage = product?.productImages.find((image) => image.isMain);
 
   return (
     <FormProvider {...form}>
@@ -226,10 +221,10 @@ export default function ProductForm({
 
         <MultiSelectDropdown
           options={categories?.map((cat) => cat.name) ?? []}
-          selectedValues={categoryIds}
+          selectedValues={selectedCategories}
           onChange={(id) => handleCategoryChange(id)}
           label="Categories"
-          error={errors.categoryIds?.message}
+          error={errors.categories?.message}
         />
 
         <MultiSelectDropdown
@@ -260,27 +255,14 @@ export default function ProductForm({
             accept="image/*"
             {...register("productImages")}
             className="w-full border p-2"
-            onChange={handleFileChange}
+            //  onChange={handleFileChange}
           />
           {errors.productImages && (
             <div className="text-destructive">
               {errors.productImages.message}
             </div>
           )}
-
-          {mainImage && (
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Main Image</h3>
-              <div className="relative h-40 w-60">
-                <Image
-                  src={mainImage.pathName}
-                  fill
-                  alt={mainImage.fileName}
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-            </div>
-          )}
+          {product && <ProductImages productId={product.id} productImages={product.productImages}/>}
         </div>
 
         <Button disabled={isSubmitting}>
