@@ -1,15 +1,15 @@
 "use client";
 
-import { formatCurrency } from "@/utils/client-utils";
+import { formatCurrency } from "@/lib/helpers/client-helpers";
 import React from "react";
 import CartActions from "./cart-actions";
 import Image from "next/image";
-import { CartItemType } from "@/types";
+import { CartItemType } from "@/lib/types";
 import IconButton from "../shared/icon-button";
 import SvgIcon from "../shared/svg-icon";
 
 type SideCartItemProps = {
-  variant: "sidebar" | "page"
+  variant: "sidebar" | "page";
   cartItem: CartItemType;
   quantity: number;
   handleIncrement: () => void;

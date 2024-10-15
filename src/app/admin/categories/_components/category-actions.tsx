@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../_components/ui/dropdown-menu";
-import { deleteCategoryAction } from "@/app/_components/_actions/categories";
+import { deleteCategoryAction } from "@/lib/_actions/categories";
 
 export default function CategoryActions({ id }: { id: string }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);

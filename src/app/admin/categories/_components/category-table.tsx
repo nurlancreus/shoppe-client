@@ -30,7 +30,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../../_components/ui/dropdown-menu";
-import { CategoryDTOType, PaginatedResponse } from "@/types"; // Update the import path as needed
+import { CategoryDTOType, PaginatedResponse } from "@/lib/types"; // Update the import path as needed
 import CategoryActions from "./category-actions";
 
 // // Sample category data
@@ -79,7 +79,7 @@ export default function CategoryTable({
   const [rowSelection, setRowSelection] = React.useState({});
 
   const categories = data.data;
-  
+
   const table = useReactTable({
     data: categories,
     columns,

@@ -1,5 +1,5 @@
 import SvgIcon from "@/components/shared/svg-icon";
-import { type SocialMedia } from "@/types";
+import { type SocialMedia } from "@/lib/types";
 import Link from "next/link";
 
 type SocialMediasProps = {
@@ -29,7 +29,7 @@ export default function SocialMedias({ socialMedias }: SocialMediasProps) {
           <Link href={media.url} target="_blank" aria-label={media.ariaLabel}>
             <SvgIcon
               id={renderIcon(media.platform)}
-              className="text-dark-gray group-hover:text-black transition duration-200"
+              className="text-dark-gray transition duration-200 group-hover:text-black"
             />
           </Link>
         </li>

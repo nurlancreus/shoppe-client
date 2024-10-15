@@ -1,9 +1,9 @@
-import { formatCurrency } from "@/utils/client-utils";
+import { formatCurrency } from "@/lib/helpers/client-helpers";
 import Rating from "../../ui/rating";
 import AddToCart from "../../ui/add-to-cart";
 import LikeProduct from "../../ui/like-product";
 import SocialMedias from "@/components/ui/social-medias";
-import { SocialMedia } from "@/types";
+import { SocialMedia } from "@/lib/types";
 
 const socialMediaLinks = [
   { platform: "Gmail", url: "https://www.gmail.com", ariaLabel: "Gmail" },

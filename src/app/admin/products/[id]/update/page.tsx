@@ -9,10 +9,10 @@ import {
   CategoryDTOType,
   PaginatedResponse,
   ProductDTOType,
-} from "@/types";
-import { HttpClient } from "@/lib/http-client";
+} from "@/lib/types";
+import httpClient from "@/lib/helpers/http-client";
 
-const httpClient = new HttpClient();
+export const revalidate = 0;
 
 export default async function UpdateProductPage({
   params: { id },
@@ -26,6 +26,7 @@ export default async function UpdateProductPage({
   const categoryResult = await httpClient.get<
     PaginatedResponse<CategoryDTOType>
   >("/categories?type=product");
+
   const colors = await httpClient.get<string[]>("/products/colors");
   const materials = await httpClient.get<string[]>("/products/materials");
 

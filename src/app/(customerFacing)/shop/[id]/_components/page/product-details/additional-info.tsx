@@ -1,4 +1,4 @@
-import { AdditionalInfoType } from "@/types";
+import { AdditionalInfoType } from "@/lib/types";
 import React from "react";
 
 type AdditionalInfoProps = {
@@ -10,7 +10,7 @@ export default function AdditionalInfo({
     weight, // in grams
     dimentions,
     colors,
-    material,
+    materials,
   },
 }: AdditionalInfoProps) {
   return (
@@ -27,7 +27,7 @@ export default function AdditionalInfo({
           <strong>Colours:</strong> {colors.join(", ")}
         </li>
         <li>
-          <strong>Material:</strong> {material.join(", ")}
+          <strong>Material:</strong> {materials.join(", ")}
         </li>
       </ul>
     </div>

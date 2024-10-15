@@ -3,8 +3,8 @@ import PageHeader from "../_components/layout/page-header";
 import PageTitle from "../_components/layout/page-title";
 import CategoryTable from "./_components/category-table";
 import Link from "next/link";
-import { CategoryDTOType, PaginatedResponse } from "@/types";
-import { HttpClient } from "@/lib/http-client";
+import { CategoryDTOType, PaginatedResponse } from "@/lib/types";
+import { HttpClient } from "@/lib/helpers/http-client";
 
 const httpClient = new HttpClient();
 

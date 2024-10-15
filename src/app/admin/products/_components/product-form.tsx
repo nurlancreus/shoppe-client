@@ -4,11 +4,8 @@
 import React, { useEffect, useState } from "react";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  addProductAction,
-  updateProductAction,
-} from "@/app/_components/_actions/products";
-import { CategoryDTOType, ProductDTOType } from "@/types";
+import { addProductAction, updateProductAction } from "@/lib/_actions/products";
+import { CategoryDTOType, ProductDTOType } from "@/lib/types";
 import InputController from "../../_components/ui/input-controller";
 import { MultiSelectDropdown } from "../../_components/ui/multi-select-dropdown";
 import { Button } from "../../_components/ui/button";
@@ -39,6 +36,7 @@ export default function ProductForm({
     resolver: zodResolver(product ? updateProductSchema : addProductSchema),
     defaultValues: {
       name: product?.name ?? "",
+      info: product?.info ?? "",
       description: product?.description ?? "",
       price: product?.price ?? 0,
       stock: product?.stock ?? 0,
@@ -71,7 +69,6 @@ export default function ProductForm({
   );
 
   console.log(product);
-
 
   const onSubmitForm: SubmitHandler<ProductSchema> = async (data) => {
     const formData = new FormData();
@@ -108,7 +105,7 @@ export default function ProductForm({
       formData.append("materials", material);
     });
 
-    console.log(formData.entries());
+    console.log(Object.fromEntries(formData.entries()));
 
     if (!product) {
       await addProductAction(formData);
@@ -160,15 +157,26 @@ export default function ProductForm({
     setValue("materials", selectedMaterials);
   }, [selectedMaterials, setValue]);
 
-
   return (
     <FormProvider {...form}>
-      <form className="space-y-8" onSubmit={handleSubmit(onSubmitForm)}>
+      <form
+        id="productForm"
+        className="space-y-8"
+        onSubmit={handleSubmit(onSubmitForm)}
+      >
         <InputController
           id="name"
           name="name"
           label="Product Name"
           error={errors.name?.message}
+        />
+
+        <InputController
+          id="info"
+          name="info"
+          label="Info"
+          type="textarea"
+          error={errors.info?.message}
         />
 
         <InputController
@@ -262,13 +270,17 @@ export default function ProductForm({
               {errors.productImages.message}
             </div>
           )}
-          {product && <ProductImages productId={product.id} productImages={product.productImages}/>}
         </div>
-
-        <Button disabled={isSubmitting}>
-          {isSubmitting ? "Saving..." : "Save"}
-        </Button>
       </form>
+      {product && (
+        <ProductImages
+          productId={product.id}
+          productImages={product.productImages}
+        />
+      )}
+      <Button form="productForm" disabled={isSubmitting} className="mt-6">
+        {isSubmitting ? "Saving..." : "Save"}
+      </Button>
     </FormProvider>
   );
 }

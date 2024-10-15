@@ -1,11 +1,11 @@
-import { ProductType } from "@/types";
-import { formatCurrency } from "@/utils/client-utils";
+import { ProductDTOType } from "@/lib/types";
+import { formatCurrency, generateImageUrl } from "@/lib/helpers/client-helpers";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 type ProductProps = {
-  product: ProductType;
+  product: ProductDTOType;
   imageSize?: keyof typeof imageSizeStyles; // New prop for image size
 };
 
@@ -20,13 +20,13 @@ const isNew = false;
 const category = "";
 
 export default function Product({
-  product: { id, discount, name, price, stock, images },
+  product: { id, discount, name, price, stock, productImages },
   imageSize = "md", // Default image size
 }: ProductProps) {
   // Calculate the discounted price if discount exists
   const discountedPrice = discount ? price - (price * discount) / 100 : price;
 
-  const mainImage = images.find((image) => image.isMain);
+  const mainImage = productImages.find((image) => image.isMain);
 
   return (
     <article className="group cursor-pointer">
@@ -60,7 +60,7 @@ export default function Product({
         {/* Product Image */}
         <Link href={`/shop/${id}`}>
           <Image
-            src={mainImage?.url ?? ""} // Use product's actual imageUrl
+            src={generateImageUrl(mainImage?.pathName ?? "", mainImage?.fileName ?? "")} // Use product's actual imageUrl
             alt={name}
             width={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}
             height={imageSize == "lg" ? 380 : imageSize == "md" ? 300 : 300}

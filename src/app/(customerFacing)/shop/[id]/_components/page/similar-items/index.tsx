@@ -1,10 +1,13 @@
 import CardWrapper from "@/components/shared/card-wrapper";
 import Product from "@/components/ui/product";
-import { ProductType } from "@/types";
-import { fetchData } from "@/utils/client-utils";
+import { PaginatedResponse, ProductDTOType } from "@/lib/types";
+import httpClient from "@/lib/helpers/http-client";
 
 export default async function SimilarItems() {
-  const products = await fetchData<Array<ProductType>>("/products");
+  const result =
+    await httpClient.get<PaginatedResponse<ProductDTOType>>("/products");
+
+    console.log(result.data, "result data")
 
   return (
     <section>
@@ -12,7 +15,7 @@ export default async function SimilarItems() {
 
       <CardWrapper
         gap="lg"
-        data={products.slice(0, 3)}
+        data={result.data.slice(0, 3)}
         rowHeight="lg"
         columns={3}
         renderProps={(p) => <Product imageSize="lg" key={p.id} product={p} />}

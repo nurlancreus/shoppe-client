@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Allerta_Stencil, DM_Sans } from "next/font/google"; // Import from next/font/google
-import { getUser } from "@/utils/server-utils";
+import { getUser } from "@/lib/helpers/server-helpers";
 import "../globals.css";
 import Header from "./_components/layout/header";
 

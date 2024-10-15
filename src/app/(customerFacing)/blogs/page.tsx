@@ -1,7 +1,7 @@
 import CardWrapper from "@/components/shared/card-wrapper";
 import Heading from "@/components/ui/heading";
-import { BlogType } from "@/types";
-import { fetchData } from "@/utils/client-utils";
+import { BlogType } from "@/lib/types";
+import { fetchData } from "@/lib/helpers/client-helpers";
 import BlogFilters from "./_components/blog-filters";
 import BlogCard from "./_components/ui/blog-card";
 import Pagination from "@/components/shared/pagination";

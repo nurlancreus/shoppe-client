@@ -1,18 +1,14 @@
+import { generateImageUrl } from "@/lib/helpers/client-helpers";
+import { ProductImageDTOType } from "@/lib/types";
 import Image from "next/image";
 
-type ImageType = {
-  id: string;
-  url: string;
-  isMain: boolean;
-};
-
 type ProductImagesProps = {
-  images: Array<ImageType>;
+  images: Array<ProductImageDTOType>;
 };
 
 export default function ProductImages({ images }: ProductImagesProps) {
-  const others: ImageType[] = [];
-  let mainImage: ImageType | undefined;
+  const others: ProductImageDTOType[] = [];
+  let mainImage: ProductImageDTOType | undefined;
 
   images?.forEach((image) => {
     if (image.isMain) mainImage = image;
@@ -27,8 +23,8 @@ export default function ProductImages({ images }: ProductImagesProps) {
           className="relative col-[1/2] h-[120px] w-[120px] border border-black"
         >
           <Image
-            src={image.url} // Use dynamic image URL from the array
-            alt={`product-thumbnail-${image.id}`}
+            src={generateImageUrl(image.pathName, image.fileName)} // Use dynamic image URL from the array
+            alt={`product-thumbnail-${image.fileName}`}
             fill
             style={{ objectFit: "cover" }}
           />
@@ -38,7 +34,7 @@ export default function ProductImages({ images }: ProductImagesProps) {
       {mainImage ? (
         <article className="relative col-[2/3] row-[1/4] h-full w-full border border-black">
           <Image
-            src={mainImage.url}
+            src={generateImageUrl(mainImage.pathName, mainImage.fileName)}
             alt="main product image"
             fill
             style={{ objectFit: "cover" }}

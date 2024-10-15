@@ -1,10 +1,8 @@
 "use client";
 
 import Star from "@/components/ui/star";
-import { RatingValueType } from "@/types";
+import { RatingValueType } from "@/lib/types";
 import { useState } from "react";
-
-
 
 type ProductRatingProps = {
   defaultRating?: RatingValueType;
@@ -31,7 +29,7 @@ export default function AddRating({
   };
 
   return (
-    <div className="flex items-center space-x-1">
+    <div className="flex items-center gap-2">
       {Array.from({ length: totalStars }, (_, i) => (
         <Star
           key={i}

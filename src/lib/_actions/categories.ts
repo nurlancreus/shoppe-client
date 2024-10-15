@@ -27,9 +27,8 @@ export async function addCategoryAction(formData: FormData) {
     const responseData = await response.json();
     console.log("Category created:", responseData);
 
-    // Revalidate and redirect after successful creation
-    revalidatePath("/categories");
-    redirect("/categories");
+    revalidatePath("/admin/categories");
+    redirect("/admin/categories");
   } catch (error) {
     console.error("Error during category creation:", error);
   }
@@ -42,7 +41,7 @@ export async function updateCategoryAction(id: string, formData: FormData) {
     description: formData.get("description")?.toString() || "",
     type: formData.get("type")?.toString() || "",
   };
-console.log(data, "UPDATEEE")
+  console.log(data, "UPDATEEE");
   try {
     const response = await fetch(
       `${process.env.BASE_API_URL}/categories/${id}`,
@@ -65,14 +64,18 @@ console.log(data, "UPDATEEE")
     console.log(error);
   }
 
-  revalidatePath("/categories");
+  revalidatePath("/admin/categories");
+  redirect("/admin/categories");
 }
 
 export async function deleteCategoryAction(id: string) {
   try {
-    const response = await fetch(`${process.env.BASE_API_URL}/categories/${id}`, {
-      method: "DELETE",
-    });
+    const response = await fetch(
+      `${process.env.BASE_API_URL}/categories/${id}`,
+      {
+        method: "DELETE",
+      },
+    );
 
     if (!response.ok) {
       const error = await response.json();
@@ -83,10 +86,9 @@ export async function deleteCategoryAction(id: string) {
     const responseData = await response.json();
     console.log("Category removed:", responseData);
 
-    revalidatePath("/categories");
-    redirect("/categories");
+    revalidatePath("/admin/categories");
+    redirect("/admin/categories");
   } catch (error) {
     console.error("Error during category deletion:", error);
   }
-  
 }

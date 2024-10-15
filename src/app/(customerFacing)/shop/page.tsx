@@ -1,16 +1,16 @@
 import CardWrapper from "@/components/shared/card-wrapper";
 import Heading from "@/components/ui/heading";
 import Product from "@/components/ui/product";
-import { ProductType } from "@/types";
-import { fetchData } from "@/utils/client-utils";
+import { PaginatedResponse, ProductDTOType } from "@/lib/types";
 import ShopFilters from "./_components/page/shop-filters";
+import httpClient from "@/lib/helpers/http-client";
 
 export default async function Shop({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const products = await fetchData<Array<ProductType>>("/products");
+  const result = await httpClient.get<PaginatedResponse<ProductDTOType>>("/products");
 
   console.log(searchParams);
 
@@ -28,7 +28,7 @@ export default async function Shop({
             gap="sm"
             columns={3}
             rowHeight="md"
-            data={products}
+            data={result.data}
             renderProps={(product) => (
               <Product key={product.id} product={product} imageSize="md" />
             )}

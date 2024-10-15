@@ -4,8 +4,8 @@ import React from "react";
 import CategoryForm from "../../_components/category-form";
 import Link from "next/link";
 import { Button } from "@/app/admin/_components/ui/button";
-import { HttpClient } from "@/lib/http-client";
-import { AppResponseWithData, CategoryDTOType } from "@/types";
+import { HttpClient } from "@/lib/helpers/http-client";
+import { AppResponseWithData, CategoryDTOType } from "@/lib/types";
 
 export const revalidate = 0;
 
@@ -16,7 +16,7 @@ export default async function UpdateCategoryPage({
   params: { id: string };
 }) {
   const data = await httpClient.get<AppResponseWithData<CategoryDTOType>>(
-    `/categories/${params.id}`
+    `/categories/${params.id}`,
   );
   console.log(params, data);
 

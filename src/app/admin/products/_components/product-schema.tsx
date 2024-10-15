@@ -17,7 +17,7 @@ const fileListSchema = z
   .refine(
     (list) =>
       Array.from(list).every(
-        (file) => file.size === 0 || file.type.startsWith("image/")
+        (file) => file.size === 0 || file.type.startsWith("image/"),
       ),
     { message: "All files must be images or empty." },
   );
@@ -25,6 +25,7 @@ const fileListSchema = z
 // Define schema for adding a product with validation rules (all fields required)
 export const addProductSchema = z.object({
   name: z.string().min(1, { message: "Product name is required." }),
+  info: z.string().min(1, { message: "Info must be at least 1 character." }),
   description: z.string().min(1, { message: "Description is required." }),
   price: z.coerce
     .number()
@@ -59,6 +60,10 @@ export const updateProductSchema = z.object({
   name: z
     .string()
     .min(1, { message: "Product name must be at least 1 character." })
+    .optional(),
+  info: z
+    .string()
+    .min(1, { message: "Info must be at least 1 character." })
     .optional(),
   description: z
     .string()

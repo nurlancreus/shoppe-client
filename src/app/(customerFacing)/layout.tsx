@@ -3,7 +3,7 @@ import { Allerta_Stencil, DM_Sans } from "next/font/google"; // Import from next
 import "../globals.css";
 import Header from "../_components/layout/header";
 import Footer from "../_components/layout/footer";
-import { getUser } from "@/utils/server-utils";
+import { getSession } from "@/lib/helpers/server-helpers";
 
 // Google fonts
 const allertaStencil = Allerta_Stencil({
@@ -28,7 +28,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log(getUser(), "USER PAYLOAD");
+
+  console.log("SESSION", getSession())
   return (
     <html lang="en">
       <body

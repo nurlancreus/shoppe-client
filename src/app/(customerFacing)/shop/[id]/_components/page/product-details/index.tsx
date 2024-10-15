@@ -1,46 +1,20 @@
-import React from "react";
-
-import { ProductType } from "@/types";
-import { fetchData } from "@/utils/client-utils";
+import { AppResponseWithData, ProductDTOType } from "@/lib/types";
 import ProductInfo from "./product-info";
 import ProductImages from "./product-images";
-
-// const productImages = [
-//   {
-//     id: "1",
-//     url: "https://via.placeholder.com/600x400?text=Main+Image",
-//     isMain: true,
-//   },
-//   {
-//     id: "2",
-//     url: "https://via.placeholder.com/150?text=Image+1",
-//     isMain: false,
-//   },
-//   {
-//     id: "3",
-//     url: "https://via.placeholder.com/150?text=Image+2",
-//     isMain: false,
-//   },
-//   {
-//     id: "4",
-//     url: "https://via.placeholder.com/150?text=Image+3",
-//     isMain: false,
-//   },
-//   {
-//     id: "5",
-//     url: "https://via.placeholder.com/150?text=Image+4",
-//     isMain: false,
-//   },
-// ];
+import httpClient from "@/lib/helpers/http-client";
 
 export default async function ProductDetails({ id }: { id: string }) {
-  const product = await fetchData<ProductType>(`/products/${id}`);
+  const result = await httpClient.get<AppResponseWithData<ProductDTOType>>(
+    `/products/${id}`,
+  );
+
+  const product = result.data;
 
   return (
     <div className="flex items-center justify-between gap-16">
-      <ProductImages images={product.images} />
+      <ProductImages images={product.productImages} />
       <ProductInfo
-        avRating={product.avRating}
+        avRating={product.rating}
         info={product.description}
         price={product.price}
         title={product.name}

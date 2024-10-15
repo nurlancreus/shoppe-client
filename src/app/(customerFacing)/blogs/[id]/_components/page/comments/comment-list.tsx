@@ -1,6 +1,6 @@
 import React from "react";
 import Comment from "./comment";
-import { CommentType } from "@/types";
+import { CommentType } from "@/lib/types";
 
 export default function CommentList({ comments }: { comments: CommentType[] }) {
   return (

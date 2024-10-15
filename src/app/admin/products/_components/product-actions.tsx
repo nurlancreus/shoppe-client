@@ -1,12 +1,23 @@
 "use client";
 
-import { LucideEye, LucideEdit, LucideTrash2, MoreHorizontal } from "lucide-react";
+import {
+  LucideEye,
+  LucideEdit,
+  LucideTrash2,
+  MoreHorizontal,
+} from "lucide-react";
 import React, { useState, useTransition } from "react";
 import Modal from "../../_components/ui/modal";
 import { useRouter } from "next/navigation";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../../_components/ui/dropdown-menu";
-import { deleteProductAction } from "@/app/_components/_actions/products";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../../_components/ui/dropdown-menu";
+import { deleteProductAction } from "@/lib/_actions/products";
 
 export default function ProductActions({ id }: { id: string }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -41,7 +52,7 @@ export default function ProductActions({ id }: { id: string }) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="inline-block p-2 text-gray-500 hover:text-gray-700">
+          <button className="text-gray-500 hover:text-gray-700 inline-block p-2">
             <MoreHorizontal className="h-5 w-5" />
           </button>
         </DropdownMenuTrigger>

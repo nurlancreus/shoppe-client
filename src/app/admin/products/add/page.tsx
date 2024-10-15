@@ -4,8 +4,8 @@ import ProductForm from "../_components/product-form";
 import PageHeader from "../../_components/layout/page-header";
 import { Button } from "../../_components/ui/button";
 import Link from "next/link";
-import { HttpClient } from "@/lib/http-client";
-import { CategoryDTOType, PaginatedResponse } from "@/types";
+import { HttpClient } from "@/lib/helpers/http-client";
+import { CategoryDTOType, PaginatedResponse } from "@/lib/types";
 
 const httpClient = new HttpClient();
 

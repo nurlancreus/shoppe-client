@@ -4,8 +4,8 @@ import React from "react";
 import {
   addCategoryAction,
   updateCategoryAction,
-} from "@/app/_components/_actions/categories";
-import { CategoryDTOType } from "@/types";
+} from "@/lib/_actions/categories";
+import { CategoryDTOType } from "@/lib/types";
 import InputController from "../../_components/ui/input-controller";
 import {
   Select,
@@ -52,7 +52,6 @@ export default function CategoryForm({ category = null }: CategoryFormProps) {
     if (data.description) formData.append("description", data.description);
     if (data.type) formData.append("type", data.type); // Add the type to form data
 
-    console.log(category, "wenifnweiofnoewf")
     if (!category) await addCategoryAction(formData);
     else await updateCategoryAction(category.id, formData);
   };

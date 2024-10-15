@@ -1,6 +1,6 @@
 "use client";
 
-import { loginAction } from "@/app/_components/_actions/auth";
+import { loginAction } from "@/lib/_actions/auth";
 import Input from "@/components/ui/input";
 import SubmitButton from "@/components/ui/submit-button";
 import Link from "next/link";

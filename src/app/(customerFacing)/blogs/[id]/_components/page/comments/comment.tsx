@@ -2,11 +2,11 @@
 
 import IconButton from "@/components/shared/icon-button";
 import SvgIcon from "@/components/shared/svg-icon";
-import { CommentType } from "@/types";
+import { CommentType } from "@/lib/types";
 import { useState } from "react";
 import AddComment from "./add-comment-form";
 import CommentList from "./comment-list";
-import { formatDate } from "@/utils/client-utils";
+import { formatDate } from "@/lib/helpers/client-helpers";
 
 type CommentProps = {
   comment: CommentType;

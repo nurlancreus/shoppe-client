@@ -1,10 +1,10 @@
 "use client";
 
-import { formatCurrency } from "@/utils/client-utils";
+import { formatCurrency } from "@/lib/helpers/client-helpers";
 import React, { useState } from "react";
 import Button from "./button";
 import CartItem from "./cart-item";
-import { CartItemType } from "@/types";
+import { CartItemType } from "@/lib/types";
 import IconButton from "../shared/icon-button";
 import SvgIcon from "../shared/svg-icon";
 import { useRouter } from "next/navigation";

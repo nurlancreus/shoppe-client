@@ -9,6 +9,7 @@ export default async function Product({
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+
   return (
     <div className="mt-32">
       <ProductDetails id={params.id} />

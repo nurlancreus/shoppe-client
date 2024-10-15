@@ -1,4 +1,4 @@
-import { AuthResponse } from "@/types";
+import { AuthResponse } from "@/lib/types";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -25,9 +25,9 @@ export async function POST(request: Request) {
 
     if (tokenData) {
       console.log("HITTTTT");
-      
-      console.log("MEN BURDAYAM")
-      
+
+      console.log("MEN BURDAYAM");
+
       const nextResponse = NextResponse.json(tokenData);
       /*
 

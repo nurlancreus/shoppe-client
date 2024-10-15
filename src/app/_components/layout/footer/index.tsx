@@ -3,7 +3,7 @@ import Navbar from "./navbar";
 import Search from "./search";
 import Copyright from "./copyright";
 import SocialMedias from "../../../../components/ui/social-medias";
-import { SocialMedia } from "@/types";
+import { SocialMedia } from "@/lib/types";
 
 const socialMediaLinks = [
   {

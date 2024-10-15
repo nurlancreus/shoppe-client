@@ -11,7 +11,7 @@ const config: Config = {
   	extend: {
   		colors: {
   			accent: {
-  				DEFAULT: 'hsl(var(--accent))',
+  				DEFAULT: 'var(--color-accent)',
   				foreground: 'hsl(var(--accent-foreground))'
   			},
   			'dark-gray': 'var(--color-dark-gray)',

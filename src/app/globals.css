@@ -79,6 +79,10 @@
 
   /* Service Colors */
   --color-error: #D82700;
+
+  --scroll-thumb-clr: var(--accent-foreground);
+  --scroll-thumb-hover-clr: var(--black);
+  --scroll-track-clr: var(--accent);
 }
 
 @layer utilities {
@@ -86,6 +90,38 @@
     text-wrap: balance;
   }
 }
+
+/* @media (min-width: 992px) {
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 3px;
+    scrollbar-gutter: stable;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  .textarea-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb-clr);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--scroll-track-clr);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scroll-thumb-hover-clr);
+  }
+} */
 
 /* Custom styles for Swiper pagination bullets */
 .swiper-pagination-bullets {

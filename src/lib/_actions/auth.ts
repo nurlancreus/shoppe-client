@@ -3,8 +3,8 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { AuthResponse } from "@/types";
-import { convertValidationErrors } from "@/lib/error-converter";
+import { AuthResponse } from "@/lib/types";
+import { convertValidationErrors } from "@/lib/helpers/error-converter";
 
 const registerSchema = z
   .object({
@@ -49,10 +49,7 @@ export async function registerAction(prevState: unknown, formData: FormData) {
 
     if (!response.ok) {
       const error = await response.json();
-      console.log(convertValidationErrors<RegisterData>(
-        error,
-        isProduction,
-      ))
+      console.log(convertValidationErrors<RegisterData>(error, isProduction));
 
       return {
         errors: {

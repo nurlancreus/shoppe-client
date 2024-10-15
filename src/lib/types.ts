@@ -4,18 +4,35 @@ export type ImageType = {
   isMain: boolean;
 };
 
+export type SessionType = {
+  user: UserType;
+  issuedAt: Date;
+  expiresAt: Date;
+  isAuth: boolean;
+};
+
+export type UserType = {
+  id?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  userName?: string;
+  roles: ("admin" | "customer")[];
+}
+
 export type AdditionalInfoType = {
-  weight: number; // In grams
-  dimentions: [number, number, number]; // Length x Width x Height
+  weight: number; 
+  dimentions: [number, number]; 
   colors: string[];
-  material: string[];
+  materials: string[];
 };
 
 export type ReviewType = {
   id: string;
   firstName: string;
   lastName: string;
-  date: Date; // Make sure to handle the date format properly in your app
+  email: string;
+  createdAt: Date;
   body: string;
   rating: RatingValueType;
 };
@@ -94,8 +111,10 @@ export type ProductImageDTOType = {
 export type ProductDTOType = {
   id: string;
   name: string;
+  info: string;
   description: string;
   price: number;
+  discount?: number;
   stock: number;
   weight: number;
   height: number;
@@ -106,6 +125,7 @@ export type ProductDTOType = {
   productImages: ProductImageDTOType[];
   rating: number;
   createdAt: Date;
+ // reviews: ReviewType[];
 };
 
 export type NewProductDTOType = {

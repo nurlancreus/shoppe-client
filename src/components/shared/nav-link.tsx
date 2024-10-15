@@ -18,7 +18,6 @@ export function NavLink({ variant, ...props }: NavLinkProps) {
   if (indexOfSecondSlash !== -1 && variant !== "account-header")
     path = pathname.slice(0, indexOfSecondSlash);
 
-  console.log("ACCCOUNT", path);
   return (
     <Link
       {...props}

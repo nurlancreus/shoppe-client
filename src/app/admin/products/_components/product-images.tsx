@@ -1,10 +1,17 @@
 "use client";
 
-import { useOptimistic } from "react";
-import { changeMainImageAction } from "@/app/_components/_actions/products";
-import { ProductImageDTOType } from "@/types";
-import { generateImageUrl } from "@/utils/client-utils";
+//import { useOptimistic } from "react";
+import {
+  changeMainImageAction,
+  deleteProductImageAction,
+} from "@/lib/_actions/products";
+import { ProductImageDTOType } from "@/lib/types";
+import { generateImageUrl } from "@/lib/helpers/client-helpers";
 import Image from "next/image";
+import { Button } from "../../_components/ui/button";
+import { useState, useTransition } from "react";
+import Modal from "../../_components/ui/modal";
+import { useRouter } from "next/navigation";
 
 export default function ProductImages({
   productId,
@@ -13,81 +20,160 @@ export default function ProductImages({
   productId: string;
   productImages: ProductImageDTOType[];
 }) {
-  // Set up optimistic state for current main image
-  const [currentMainImage, setCurrentMainImage] = useOptimistic<
-    ProductImageDTOType | null,
-    ProductImageDTOType | null
-  >(
-    productImages.find((image) => image.isMain) || null,
-    (state, newMainImage) => newMainImage,
-  );
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [removedImageId, setRemovedImageId] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
-  const otherImages = productImages.filter((image) => !image.isMain);
+  // const [imagesState, setImagesState] = useOptimistic<
+  //   {
+  //     currentMainImage: ProductImageDTOType | null;
+  //     otherImages: ProductImageDTOType[];
+  //   },
+  //   {
+  //     currentMainImage: ProductImageDTOType | null;
+  //     otherImages: ProductImageDTOType[];
+  //   }
+  // >(
+  //   {
+  //     currentMainImage: productImages.find((image) => image.isMain) || null,
+  //     otherImages: productImages.filter((image) => !image.isMain),
+  //   },
+  //   (state, newState) => newState
+  // );
 
-  const handleChangeMainImage = async (newMainImage: ProductImageDTOType) => {
-    const previousMainImage = currentMainImage; // Keep track of the previous main image
-    setCurrentMainImage(newMainImage); // Optimistically update the main image
+  // const { currentMainImage, otherImages } = imagesState;
 
-    try {
-      // Attempt to change the main image on the server
-      await changeMainImageAction(productId, newMainImage.id);
-    } catch (error) {
-      // If the request fails, revert to the previous main image
-      setCurrentMainImage(previousMainImage);
-      console.error("Failed to change main image:", error);
-    }
+  // const handleChangeMainImage = async (newMainImage: ProductImageDTOType) => {
+  //   const previousState = imagesState;
+
+  //   // Optimistically swap the main image with the clicked image
+
+  //   setImagesState({
+  //     currentMainImage: newMainImage,
+  //     otherImages: [
+  //       currentMainImage!, // Old main image goes to otherImages
+  //       ...otherImages.filter((img) => img.id !== newMainImage.id), // Filter out the new main image from otherImages
+  //     ],
+  //   });
+
+  //   try {
+  //     // Perform the server-side update
+  //     await changeMainImageAction(productId, newMainImage.id);
+  //   } catch (error) {
+  //     // If server update fails, revert to previous state
+  //     setImagesState(previousState);
+  //     console.error("Failed to change main image:", error);
+  //   }
+  // };
+
+  const handleChangeMainImage = async (imageId: string) => {
+    await changeMainImageAction(productId, imageId);
+  };
+
+  let currentMainImage: ProductImageDTOType;
+  const otherImages: ProductImageDTOType[] = [];
+
+  productImages.forEach((image) => {
+    if (image.isMain) currentMainImage = image;
+    else otherImages.push(image);
+  });
+
+  const handleDelete = (imageId: string) => {
+    setRemovedImageId(imageId);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    startTransition(async () => {
+      await deleteProductImageAction(productId, removedImageId!);
+      setShowDeleteModal(false);
+      router.refresh();
+    });
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
   };
 
   return (
-    <div className="mt-6 flex items-center gap-6">
-      {/* Main image section */}
-      {currentMainImage ? (
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Main Image</h3>
-          <div className="relative h-40 w-60">
-            <Image
-              src={generateImageUrl(
-                currentMainImage.pathName,
-                currentMainImage.fileName,
-              )}
-              fill
-              alt={currentMainImage.fileName}
-              style={{ objectFit: "cover" }}
-              onError={(e) => {
-                // Fallback for failed image loading
-                e.currentTarget.src = "/path/to/placeholder-image.png"; // Replace with your placeholder path
-              }}
-            />
+    <>
+      <div className="mt-6 flex items-end gap-6">
+        {/* Main image section */}
+        {currentMainImage! != null ? (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Main Image</h3>
+            <div className="relative size-60">
+              <Image
+                src={generateImageUrl(
+                  currentMainImage.pathName,
+                  currentMainImage.fileName,
+                )}
+                fill
+                alt={currentMainImage.fileName}
+                style={{ objectFit: "cover" }}
+                onError={(e) => {
+                  e.currentTarget.src = "/path/to/placeholder-image.png";
+                }}
+              />
+            </div>
           </div>
-        </div>
-      ) : (
-        <p>No main image available.</p>
-      )}
+        ) : (
+          <p>No main image available.</p>
+        )}
 
-      {/* Other images section */}
-      {otherImages.length > 0 ? (
-        otherImages.map((image) => (
-          <div
-            key={image.fileName}
-            className="relative m-2 inline-block h-20 w-20 cursor-pointer" // Added cursor pointer for better UX
-            onClick={() => handleChangeMainImage(image)}
-            role="button"
-          >
-            <Image
-              src={generateImageUrl(image.pathName, image.fileName)}
-              fill
-              alt={image.fileName}
-              style={{ objectFit: "cover" }}
-              onError={(e) => {
-                // Fallback for failed image loading
-                e.currentTarget.src = "/path/to/placeholder-image.png"; // Replace with your placeholder path
-              }}
-            />
+        {/* Other images section */}
+        {otherImages.length > 0 ? (
+          <div className="inline-flex items-end gap-4 overflow-x-auto">
+            {otherImages.map((image) => (
+              <div
+                key={image.fileName}
+                className="group relative size-52 shrink-0 cursor-pointer"
+              >
+                <Image
+                  src={generateImageUrl(image.pathName, image.fileName)}
+                  fill
+                  alt={image.fileName}
+                  style={{ objectFit: "cover" }}
+                  onError={(e) => {
+                    e.currentTarget.src = "/path/to/placeholder-image.png";
+                  }}
+                />
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-6 bg-black bg-opacity-30 opacity-0 transition duration-300 group-hover:pointer-events-auto group-hover:opacity-100">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => handleChangeMainImage(image.id)}
+                  >
+                    Make Main
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => handleDelete(image.id)}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
-        ))
-      ) : (
-        <p>No additional images available.</p>
+        ) : (
+          <p>No additional images available.</p>
+        )}
+      </div>
+      {showDeleteModal && (
+        <Modal
+          title="Confirm Delete"
+          description="Are you sure you want to delete this product?"
+          isOpen={showDeleteModal}
+          onClose={cancelDelete}
+          onConfirm={confirmDelete}
+          isDestructive
+          confirmText={isPending ? "Deleting..." : "Confirm"}
+          isLoading={isPending}
+        />
       )}
-    </div>
+    </>
   );
 }

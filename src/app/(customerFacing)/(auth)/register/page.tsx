@@ -3,16 +3,13 @@ import Input from "@/components/ui/input";
 import Link from "next/link";
 import { useFormState } from "react-dom";
 import SubmitButton from "@/components/ui/submit-button";
-import { registerAction } from "@/app/_components/_actions/auth";
-
+import { registerAction } from "@/lib/_actions/auth";
 
 export default function RegisterPage() {
   const [state, action] = useFormState(registerAction, {
     errors: {
-      validation: {
-        
-      }
-    }
+      validation: {},
+    },
   });
 
   return (

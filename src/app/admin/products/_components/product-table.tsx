@@ -32,8 +32,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../../_components/ui/dropdown-menu";
-import { ProductDTOType, ProductImageDTOType } from "@/types";
-import { generateImageUrl } from "@/utils/client-utils";
+import { ProductDTOType, ProductImageDTOType } from "@/lib/types";
+import { generateImageUrl } from "@/lib/helpers/client-helpers";
 
 // Define the columns for the product table
 const columns: ColumnDef<ProductDTOType>[] = [
@@ -76,7 +76,7 @@ const columns: ColumnDef<ProductDTOType>[] = [
   {
     accessorKey: "materials",
     header: "Materials",
-    cell: ({row}) => `${(row.getValue("materials") as string[]).join(", ")}`
+    cell: ({ row }) => `${(row.getValue("materials") as string[]).join(", ")}`,
   },
   {
     accessorKey: "rating",
@@ -121,7 +121,6 @@ export default function ProductTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-
 
   const table = useReactTable({
     data: products,

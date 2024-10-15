@@ -1,13 +1,13 @@
 import Input from "@/components/ui/input";
 import SubmitButton from "@/components/ui/submit-button";
-import { getUser } from "@/utils/server-utils";
+import { getUser } from "@/lib/helpers/server-helpers";
 import React from "react";
 
 export default function AccountDetailsPage() {
   const user = getUser()!;
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="mx-auto max-w-lg">
       <h1 className="mb-9 text-center text-h1-desktop">Account details</h1>
       <form id="user-details" name="user-details">
         <div className="mb-12">

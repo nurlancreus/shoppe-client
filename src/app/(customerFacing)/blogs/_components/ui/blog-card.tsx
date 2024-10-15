@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BlogType } from "@/types";
+import { BlogType } from "@/lib/types";
 
 type BlogCardProps = {
   blog: BlogType;
@@ -11,7 +11,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
 
   return (
     <article className="">
-      <div className="mb-6 overflow-hidden rounded-lg h-[18.75rem] relative">
+      <div className="relative mb-6 h-[18.75rem] overflow-hidden rounded-lg">
         {mainImage && (
           <Image
             src={mainImage.url}
@@ -35,7 +35,10 @@ export default function BlogCard({ blog }: BlogCardProps) {
           {blog.excerpt}
         </p>
 
-        <Link href={`/blogs/${blog.id}`} className="text-body-large font-bold text-accent">
+        <Link
+          href={`/blogs/${blog.id}`}
+          className="text-body-large font-bold text-accent"
+        >
           Read More
         </Link>
       </div>
