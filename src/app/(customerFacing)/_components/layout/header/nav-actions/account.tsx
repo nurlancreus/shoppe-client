@@ -34,10 +34,11 @@ export default function Account({
   const handleCloseDropdown = () => setIsOpened(false);
 
   const handleLogout = () => {
-    fetch(`${process.env.NEXT_PUBLIC_LOCAL_API_URL}/auth/logout`)
+    fetch(`${process.env.NEXT_PUBLIC_LOCAL_ROUTE_HANDLER_URL}/auth/logout`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        router.refresh();
         // router.push("/login");
       });
   };

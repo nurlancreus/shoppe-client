@@ -35,7 +35,7 @@ export default function Product({
         {(discount != null || stock === 0 || isNew || category) && (
           <div className="absolute left-4 top-4 space-y-1">
             {discount != null && (
-              <span className="block rounded-sm bg-accent px-2 py-[2px] text-xs text-white">
+              <span className="block rounded-sm bg-accent-custom px-2 py-[2px] text-xs text-white">
                 -{discount}%
               </span>
             )}
@@ -45,7 +45,7 @@ export default function Product({
               </span>
             )}
             {stock === 0 && (
-              <span className="block rounded-sm bg-accent px-2 py-[2px] text-xs text-white">
+              <span className="block rounded-sm bg-accent-custom px-2 py-[2px] text-xs text-white">
                 Sold Out
               </span>
             )}
@@ -88,12 +88,12 @@ export default function Product({
             <span className="text-sm text-red-500 line-through">
               {formatCurrency(price)}
             </span>
-            <span className="text-h4-desktop text-accent">
+            <span className="text-h4-desktop text-accent-custom">
               {formatCurrency(discountedPrice)}{" "}
             </span>
           </div>
         ) : (
-          <p className="text-h4-desktop text-accent">{formatCurrency(price)}</p>
+          <p className="text-h4-desktop text-accent-custom">{formatCurrency(price)}</p>
         )}
       </div>
     </article>

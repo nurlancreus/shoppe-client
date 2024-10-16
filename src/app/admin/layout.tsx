@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Allerta_Stencil, DM_Sans } from "next/font/google"; // Import from next/font/google
-import { getUser } from "@/lib/helpers/server-helpers";
 import "../globals.css";
 import Header from "./_components/layout/header";
 
@@ -27,7 +26,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log(getUser(), "USER PAYLOAD");
+
   return (
     <html lang="en">
       <body

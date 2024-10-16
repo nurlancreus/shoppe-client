@@ -1,6 +1,5 @@
 "use client";
 import {
-  AppResponseWithData,
   RatingValueType,
   ReviewType,
   UserType,
@@ -19,7 +18,7 @@ import Button from "@/components/ui/button";
 import {
   addProductReviewAction,
   updateProductReviewAction,
-} from "@/lib/_actions/products";
+} from "@/lib/_actions/reviews";
 import { useReviewContext } from "@/lib/context/ReviewContextProvider";
 import { useEffect, useState } from "react";
 import httpClient from "@/lib/helpers/http-client";
@@ -36,12 +35,12 @@ export default function ReviewForm({ productId, user }: AddReviewFormProps) {
   const form = useForm<AddReviewSchema | UpdateReviewSchema>({
     resolver: zodResolver(review ? updateReviewSchema : addReviewSchema),
     values: {
-      firstName: review?.firstName ?? user?.firstName ?? "",
-      lastName: review?.lastName ?? user?.lastName ?? "",
-      email: review?.email ?? user?.email ?? "",
-      reviewBody: review?.body ?? "",
+      // firstName: review?.firstName ?? user?.firstName ?? "",
+      // lastName: review?.lastName ?? user?.lastName ?? "",
+      // email: review?.email ?? user?.email ?? "",
+      body: review?.body ?? "",
       rating: review?.rating ?? 0,
-      saveMe: false,
+      //saveMe: false,
     },
   });
 
@@ -56,12 +55,12 @@ export default function ReviewForm({ productId, user }: AddReviewFormProps) {
     AddReviewSchema | UpdateReviewSchema
   > = async (data) => {
     const formData = new FormData();
-    formData.append("firstName", data.firstName + "");
-    formData.append("lastName", data.lastName + "");
-    formData.append("email", data.email + "");
-    formData.append("body", data.reviewBody + "");
+    // formData.append("firstName", data.firstName + "");
+    // formData.append("lastName", data.lastName + "");
+    // formData.append("email", data.email + "");
+    formData.append("body", data.body + "");
     formData.append("rating", data.rating + "");
-    formData.append("saveMe", data.saveMe ? "true" : "false"); 
+    // formData.append("saveMe", data.saveMe ? "true" : "false"); 
 
     console.log(Object.entries(formData.entries()));
 
@@ -100,10 +99,10 @@ export default function ReviewForm({ productId, user }: AddReviewFormProps) {
 
   useEffect(() => {
     if (review) {
-      setValue("firstName", review.firstName);
-      setValue("lastName", review.lastName);
-      setValue("email", review.email);
-      setValue("reviewBody", review.body);
+      // setValue("firstName", review.firstName);
+      // setValue("lastName", review.lastName);
+      // setValue("email", review.email);
+      setValue("body", review.body);
       setValue("rating", review.rating); 
     }
 
@@ -118,7 +117,7 @@ export default function ReviewForm({ productId, user }: AddReviewFormProps) {
         className="space-y-6"
         onSubmit={handleSubmit(onSubmitForm)}
       >
-        <Input
+        {/* <Input
           type="text"
           id="first-name"
           name="firstName"
@@ -144,16 +143,16 @@ export default function ReviewForm({ productId, user }: AddReviewFormProps) {
           type="email"
           error={errors.email?.message}
           className="pb-8 pt-2"
-        />
+        /> */}
         <Input
           id="review-body"
-          name="reviewBody"
+          name="body"
           placeholder="Your Review"
           type="textarea"
-          error={errors.reviewBody?.message}
+          error={errors.body?.message}
           rows={4}
         />
-        {user == null && (
+        {/* {user == null && (
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
@@ -167,7 +166,7 @@ export default function ReviewForm({ productId, user }: AddReviewFormProps) {
               I comment
             </label>
           </div>
-        )}
+        )} */}
 
         <div className="space-y-4">
           <p className="text-gray-600 text-sm">Your Rating *</p>

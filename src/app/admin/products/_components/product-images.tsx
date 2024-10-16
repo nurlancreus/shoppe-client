@@ -10,7 +10,7 @@ import { generateImageUrl } from "@/lib/helpers/client-helpers";
 import Image from "next/image";
 import { Button } from "../../_components/ui/button";
 import { useState, useTransition } from "react";
-import Modal from "../../_components/ui/modal";
+import Modal from "../../../../components/shared/modal";
 import { useRouter } from "next/navigation";
 
 export default function ProductImages({

@@ -1,4 +1,4 @@
-import { NavLink } from "../../../../components/shared/nav-link";
+import { NavLink } from "../../../../../components/shared/nav-link";
 
 const NAVIGATION_ROUTES = [
   {

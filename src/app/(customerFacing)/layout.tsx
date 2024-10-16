@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Allerta_Stencil, DM_Sans } from "next/font/google"; // Import from next/font/google
 import "../globals.css";
-import Header from "../_components/layout/header";
-import Footer from "../_components/layout/footer";
+import Header from "./_components/layout/header";
+import Footer from "./_components/layout/footer";
 import { getSession } from "@/lib/helpers/server-helpers";
 
 // Google fonts
@@ -28,8 +28,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  console.log("SESSION", getSession())
+  console.log("SESSION", getSession());
   return (
     <html lang="en">
       <body

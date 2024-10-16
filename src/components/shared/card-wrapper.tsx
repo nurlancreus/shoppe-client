@@ -38,10 +38,18 @@ export default function CardWrapper<T>({
     columns === -1 ? "overflow-x-auto" : columnStyles[columns]; // Use scrollable class if columns is -1
 
   return (
-    <div
-      className={`grid ${columnClass} ${gapStyles[gap]} ${rowHeight ? rowStyles[rowHeight] : ""} ${className}`}
-    >
-      {data.map(renderProps)}
-    </div>
+    <>
+      {data.length == 0 ? (
+        <h3 className="mt-10 text-center text-h3-desktop">
+          There is no items
+        </h3>
+      ) : (
+        <div
+          className={`grid ${columnClass} ${gapStyles[gap]} ${rowHeight ? rowStyles[rowHeight] : ""} ${className}`}
+        >
+          {data.map(renderProps)}
+        </div>
+      )}
+    </>
   );
 }

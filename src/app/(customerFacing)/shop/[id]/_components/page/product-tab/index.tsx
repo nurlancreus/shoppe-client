@@ -7,7 +7,7 @@ import httpClient from "@/lib/helpers/http-client";
 
 export default async function ProductTab({
   id,
-  currentTab,
+  currentTab = "description",
 }: {
   id: string;
   currentTab: string;
@@ -17,6 +17,7 @@ export default async function ProductTab({
   );
 
   const product = result.data;
+
   return (
     <section className="my-24">
       <TabButtons />

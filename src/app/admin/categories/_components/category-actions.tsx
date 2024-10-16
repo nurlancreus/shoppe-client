@@ -7,7 +7,7 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import React, { useState, useTransition } from "react";
-import Modal from "../../_components/ui/modal";
+import Modal from "../../../../components/shared/modal";
 import { useRouter } from "next/navigation";
 import {
   DropdownMenu,

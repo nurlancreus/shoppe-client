@@ -3,6 +3,7 @@ import Rating from "../../ui/rating";
 import { RatingValueType, ReviewType } from "@/lib/types";
 import { formatDate } from "@/lib/helpers/client-helpers";
 import EditReviewBtn from "./edit-review-btn";
+import ReviewActions from "./review-actions";
 
 type ReviewProps = {
   review: ReviewType;
@@ -20,7 +21,7 @@ export default function Review({
           </h5>
           <span>{formatDate(createdAt)}</span>
         </div>
-        <EditReviewBtn id={id} />
+        <ReviewActions reviewId={id}/>
       </div>
       <Rating defaultRating={rating as RatingValueType} />
       <p className="mt-6 text-h5-desktop text-dark-gray">{body}</p>

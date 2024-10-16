@@ -1,80 +1,89 @@
 "use client";
 
-import { loginAction } from "@/lib/_actions/auth";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
-import SubmitButton from "@/components/ui/submit-button";
 import Link from "next/link";
-import { useFormState } from "react-dom";
+import { loginSchema, LoginSchema } from "./login-schema";
+import { loginAction } from "@/lib/_actions/auth";
+import Spinner from "@/components/ui/spinner";
+import Button from "@/components/ui/button";
 
 export default function LoginPage() {
-  const [state, action] = useFormState(loginAction, {
-    errors: {
-      validation: {},
-      auth: undefined,
-      server: undefined,
+  const form = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      rememberMe: false,
     },
   });
 
-  const hasWrongCredentialsError =
-    state?.errors?.auth?.general ||
-    state?.errors?.validation?.email ||
-    state?.errors?.validation?.password;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = form;
+
+  const onSubmit = async (data: LoginSchema) => {
+    try {
+      const formData = new FormData();
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      formData.append("rememberMe", data.rememberMe ? "true" : "false");
+
+      await loginAction(formData);
+    } catch (error) {
+      console.error("Login failed", error);
+    }
+  };
 
   return (
-    <form id="login-form" name="login-form" action={action}>
-      <Input
-        type="email"
-        name="email"
-        id="email"
-        placeholder="Email"
-        value="string@example.com"
-        error={null}
-        className="pb-3 text-h5-desktop text-dark-gray"
-        formControllClassName="mb-11"
-      />
-
-      {/* Password Input */}
-      <Input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="Password"
-        value="string"
-        error={null}
-        className="pb-3 text-h5-desktop text-dark-gray"
-        formControllClassName="mb-11"
-      />
-
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="remember-me"
-          name="remember-me"
-          className="size-4 accent-black"
+    <FormProvider {...form}>
+      <form id="login-form" name="login-form" onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Email"
+          formControllClassName="mb-11"
         />
-        <label htmlFor="remember-me">Remember me</label>
-      </div>
 
-      <SubmitButton className="mt-16 w-full uppercase">Sign in</SubmitButton>
+        <Input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          formControllClassName="mb-11"
+        />
 
-      {hasWrongCredentialsError && (
-        <p className="mt-4 text-red-600">
-          Wrong credentials. Please try again.
-        </p>
-      )}
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="rememberMe"
+            className="size-4 accent-black"
+            {...register("rememberMe")}
+          />
+          <label htmlFor="rememberMe">Remember me</label>
+        </div>
 
-      {state?.errors?.server?.general && (
-        <p className="mt-4 text-red-600">
-          Server error. Please try again later.
-        </p>
-      )}
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="mt-16 flex w-full items-center gap-2 uppercase"
+        >
+          {isSubmitting && <Spinner />} Login
+        </Button>
 
-      <Link
-        href="/forgot-password"
-        className="mt-3 block text-center text-h5-desktop"
-      >
-        Have you forgotten your password? Reset Password
-      </Link>
-    </form>
+        {(errors.email || errors.password) && (
+          <p className="mt-4 text-red-600">Wrong Credentials</p>
+        )}
+
+        <Link
+          href="/forgot-password"
+          className="mt-3 block text-center text-h5-desktop"
+        >
+          Have you forgotten your password? Reset Password
+        </Link>
+      </form>
+    </FormProvider>
   );
 }

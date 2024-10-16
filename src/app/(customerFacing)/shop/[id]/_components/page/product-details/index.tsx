@@ -10,6 +10,8 @@ export default async function ProductDetails({ id }: { id: string }) {
 
   const product = result.data;
 
+  console.log(product, "Rating")
+
   return (
     <div className="flex items-center justify-between gap-16">
       <ProductImages images={product.productImages} />

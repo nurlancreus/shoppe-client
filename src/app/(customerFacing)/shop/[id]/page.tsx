@@ -10,11 +10,12 @@ export default async function Product({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
 
+  // WARNING: PAGES NOT LOADING FAST ENOUGH, RATING AND SIMILAR ITEMS WERE EMTPY FIRST
   return (
     <div className="mt-32">
       <ProductDetails id={params.id} />
       <ProductTab id={params.id} currentTab={searchParams.tab as string} />
-      <SimilarItems />
+      <SimilarItems id={params.id} />
     </div>
   );
 }

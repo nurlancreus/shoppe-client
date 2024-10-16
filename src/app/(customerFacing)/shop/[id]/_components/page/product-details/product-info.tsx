@@ -38,7 +38,7 @@ export default function ProductInfo({
       <div className="mb-16 flex flex-col gap-6">
         <h4 className="text-h2-desktop">{title}</h4>
 
-        <p className="text-h4-desktop font-medium text-accent">
+        <p className="text-h4-desktop font-medium text-accent-custom">
           {formatCurrency(price)}
         </p>
       </div>

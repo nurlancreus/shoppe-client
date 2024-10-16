@@ -5,7 +5,7 @@ import Product from "@/components/ui/product";
 import httpClient from "@/lib/helpers/http-client";
 
 export default async function ProductList() {
-  const result = await httpClient.get<PaginatedResponse<ProductDTOType>>("/products");
+  const result = await httpClient.get<PaginatedResponse<ProductDTOType>>("/products", {cache: "no-store"});
 
   return (
     <section id="product-list">
